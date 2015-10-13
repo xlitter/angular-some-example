@@ -1,0 +1,86 @@
+{
+  //require
+  "requireCurlyBraces": [
+    "if",
+    "else",
+    "for",
+    "while",
+    "do",
+    "try",
+    "catch"
+  ],
+  //"requirePaddingNewlinesBeforeKeywords" : true,//Requires an empty line above the specified keywords unless the keyword is the first expression in a block.
+  //"requireLineBreakAfterVariableAssignment" : true,//no support Requires placing line feed after assigning a variable.
+  "requireOperatorBeforeLineBreak": true,
+  "requireCamelCaseOrUpperCaseIdentifiers": true,
+  "requireSpaceBeforeBinaryOperators": [
+    "=", "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", ">>>=",
+    "&=", "|=", "^=", "+=",
+
+    "+", "-", "*", "/", "%", "<<", ">>", ">>>", "&",
+    "|", "^", "&&", "||", "===", "==", ">=",
+    "<=", "<", ">", "!=", "!=="
+  ],
+  "requireSpaceAfterBinaryOperators": true,
+  "requireSpacesInConditionalExpression": true,
+  "requireSpaceBeforeBlockStatements": true,
+  "requireLineFeedAtFileEnd": true,
+  "requireSpacesInFunctionExpression": {
+    "beforeOpeningCurlyBrace": true
+  },
+  "requireCommaBeforeLineBreak": true,
+  "requireMultipleVarDecl": "onevar",
+  "requireSpaceAfterKeywords": [
+    "if",
+    "else",
+    "for",
+    "while",
+    "do",
+    "switch",
+    "return",
+    "try",
+    "catch"
+  ],
+  //Requires constructors to be capitalized (except for this)
+  "requireCapitalizedConstructors":true,
+
+  
+  
+  //disallow
+  "disallowMultipleLineStrings": true,
+  "disallowMixedSpacesAndTabs": true,
+  "disallowTrailingWhitespace": true,//Requires all lines to end on a non-whitespace character
+  "disallowSpaceAfterPrefixUnaryOperators": true,
+  "disallowKeywordsOnNewLine": ["else"],
+  //匿名函数(function() {})()
+  "disallowSpacesInAnonymousFunctionExpression": {
+    "beforeOpeningRoundBrace": true
+  },
+  //var a = function b() {};
+  "disallowSpacesInNamedFunctionExpression": {
+    "beforeOpeningRoundBrace": true
+  },
+  //funtion a(){}
+  "disallowSpacesInFunctionDeclaration": {
+    "beforeOpeningRoundBrace": true
+  },
+  "disallowSpacesInsideObjectBrackets": "all",
+  "disallowSpacesInsideArrayBrackets": "all",
+  "disallowSpacesInsideParentheses": true,
+  "disallowMultipleLineBreaks": true,
+  "disallowNewlineBeforeBlockStatements": true,
+
+
+
+  "maximumLineLength": {
+    "value": 120,
+    "allowComments": true,
+    "allowRegex": true
+  },
+  "validateIndentation": 2,
+  "validateQuoteMarks": "'",
+  "validateJSDoc": {
+    "checkParamNames": true,
+    "requireParamTypes": true
+  }
+}

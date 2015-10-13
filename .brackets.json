@@ -1,0 +1,19 @@
+{
+  "language": {
+    "javascript": {
+      "linting.prefer": [
+        "JSHint",
+        "JSCS"
+      ],
+      "linting.usePreferredOnly": true
+    }
+  },
+  "language.fileExtensions": {
+
+  },
+  "language.fileNames": {
+    ".jscsrc": "json",
+    ".jshintrc": "json",
+    ".jsbeautifyrc": "json"
+  }
+}

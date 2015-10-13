@@ -1,0 +1,13 @@
+<div class="image-upload-contain">
+  <div class="upload-contain">
+    <div class="upload-item" ng-repeat="item in formData.imgCnt track by $index">
+      <input type="file" nv-file-select class="upload-file-input" uploader="formData.uploader" options="{idx: {{$index}}}" />
+      <img ng-src='{{formData.fileItems[$index].src}}' ng-show="formData.fileItems[$index].src">
+      <div class="hasupbtn" ng-show="formData.fileItems[$index].src">
+        <a href="javascript:;" ng-class="{lmove: $index === 0, ablelmove : $index !==0}" ng-click="moveToLeft($index)"><em></em></a>
+        <a href="javascript:;" ng-class="{rmove: $index=== formData.fileItems.length-1,ablermove: $index !== formData.fileItems.length-1}" ng-click="moveToRight($index)"><em></em></a>
+        <a href="javascript:;" class="delet" ng-click="removeUpload($index)"><em></em></a>
+      </div>
+    </div>
+  </div>
+</div>

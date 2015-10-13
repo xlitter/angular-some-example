@@ -1,0 +1,10 @@
+<button class="btn btn-info" >NO NEED ROLE</button>
+
+
+<button class="btn btn-info" if-all-granted="ROLE_ADMIN, ROLE_MORE" ng-show="GrantedElementisShow">ROLE_ADMIN&&ROLE_MORE{{GrantedElementisShow}}</button>
+
+
+<button class="btn btn-info" if-any-granted="ROLE_USER, ROLE_MORE" ng-show="GrantedElementisShow">ROLE_ADMIN||ROLE_MORE</button>
+
+
+<button class="btn btn-info" if-not-granted="ROLE_NOT2" ng-show="GrantedElementisShow">NOT Granted ROLE_NOT2</button>
