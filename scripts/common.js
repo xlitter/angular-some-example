@@ -1956,7 +1956,7 @@ angular.module("sn.controls").directive("ueditor", ["LazyLoader", "$timeout", fu
     },
     link: function(scope, element, attrs) {
       var ue;
-      LazyLoader.loadQueue(["ueditor/ueditor.parse.js", "ueditor/ueditor.config.js", "ueditor/ueditor.all.min.js", "ueditor/lang/zh-cn/zh-cn.js"])
+      LazyLoader.loadQueue(["libs/ueditor/ueditor.parse.js", "libs/ueditor/ueditor.config.js", "libs/ueditor/ueditor.all.min.js", "libs/ueditor/lang/zh-cn/zh-cn.js"])
         .then(function() {
           ue = UE.getEditor(element[0].id);
           var lastContent = scope.content;

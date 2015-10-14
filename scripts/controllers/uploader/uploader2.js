@@ -83,14 +83,15 @@ angular.module('app').controller('ImageUpload2Ctrl', function($scope, FileUpload
     return uploader.uploader;
   }
 
-  function createUploadHanler(url, items, completeCallback) {
+  function createUploadHanler(url, items, completeCallback, options) {
     var fileUploader,
-      options = {},
       limit,
       uploadItems,
       filters = [],
       globalsFilter = globals.filters;
 
+	options = options ||{};
+	  
     if ((items || []).length === 0) {
       throw new Error('待显示元素length为0');
     }
@@ -143,7 +144,7 @@ angular.module('app').controller('ImageUpload2Ctrl', function($scope, FileUpload
           });
           break;
       }*/
-    });
+    },{alias: 'prd_img'});
 
     formData.imgUploader = imgUpload.fileUploader;
     formData.imgUploadItems = imgUpload.uploadItems;
@@ -176,7 +177,7 @@ angular.module('app').controller('ImageUpload2Ctrl', function($scope, FileUpload
             });
             break;
         }*/
-      });
+      }, {alias: 'prd_img'});
 
     formData.waterUploader = waterUpload.fileUploader;
     formData.waterUploadItems = waterUpload.uploadItems;

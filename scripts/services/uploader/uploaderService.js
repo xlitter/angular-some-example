@@ -3,12 +3,14 @@ angular.module('app').factory('UploaderService', function(FileUploader, AlertSer
 
   function Uploader(url, options) {
     var defaultOptions = {
+		alias: 'file',
         autoUpload: true
       },
       options = this.options = angular.extend(defaultOptions, options);
     
     this.uploader = new FileUploader({
       url: url,
+	  alias: options.alias,
       autoUpload: options.autoUpload
     });
   }
