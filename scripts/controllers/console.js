@@ -39,6 +39,12 @@ angular.module('app').controller('ConsoleCtrl', ['$rootScope', '$scope', '$state
           state: 'ImageUpload',
           relation: [],
           o: 0
+        },{
+          name: '图片上传2',
+          clazz: 'fa fa-circle-o',
+          state: 'ImageUpload2',
+          relation: [],
+          o: 0
         }],
         o: 0
       }];

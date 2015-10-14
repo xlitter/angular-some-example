@@ -1,0 +1,35 @@
+<div class="image-upload-contain">
+  <div class="upload-contain">
+    <div class="upload-item-con" ng-repeat="item in formData.imgCnt track by $index">
+      <div class="upload-item">
+        <input type="file" nv-file-select class="upload-file-input" uploader="formData.imgUploader" options="{idx: {{$index}}}" />
+        <img ng-src='{{formData.imgUploadItems[$index].src}}' ng-show="formData.imgUploadItems[$index].src">
+        <div class="hasupbtn" ng-show="formData.imgUploadItems[$index].src">
+          <a href="javascript:;" ng-class="{lmove: $index === 0, ablelmove : $index !==0}" ng-click="moveToLeft($index, 'imgUpload')"><em></em></a>
+          <a href="javascript:;" ng-class="{rmove: $index=== formData.imgUploadItems.length-1,ablermove: $index !== formData.imgUploadItems.length-1}" ng-click="moveToRight($index, 'imgUpload')"><em></em></a>
+          <a href="javascript:;" class="delet" ng-click="removeUpload($index, 'imgUpload')"><em></em></a>
+        </div>
+      </div>
+      <div>{{item.name}}</div>
+    </div>
+  </div>
+</div>
+
+
+<div class="image-upload-contain">
+  <div class="upload-contain">
+   <div class="upload-item-con" ng-repeat="item in formData.waterList track by $index">
+    <div class="upload-item">
+      <img ng-src='{{formData.waterUploadItems[$index].src}}' ng-show="formData.waterUploadItems[$index].src">
+      <div class="hasupbtn" ng-show="formData.waterUploadItems[$index].src">
+        <a href="javascript:;" ng-class="{lmove: $index === 0, ablelmove : $index !==0}" ng-click="moveToLeft($index, 'waterUpload')"><em></em></a>
+        <a href="javascript:;" ng-class="{rmove: $index=== formData.waterUploadItems.length-1,ablermove: $index !== formData.waterUploadItems.length-1}" ng-click="moveToRight($index, 'waterUpload')"><em></em></a>
+        <a href="javascript:;" class="delet" ng-click="removeUpload($index, 'waterUpload')"><em></em></a>
+      </div>
+    </div>
+    <div class="upload-water-txt">
+        <span>水印</span>
+       <input type="file" nv-file-select class="upload-file-input" uploader="formData.waterUploader" options="{idx: {{$index}}}" />
+    </div>
+  </div>
+</div>
