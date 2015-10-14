@@ -32,7 +32,6 @@ angular.module('app').factory('UploaderService', function(FileUploader, AlertSer
           that.uploader.filters.push(v);
         });
       }
-
     },
     addWhenAddingFileFailed: function(handler) {
       var that = this;

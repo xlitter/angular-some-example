@@ -1952,14 +1952,28 @@ angular.module("sn.controls").directive("ueditor", ["LazyLoader", "$timeout", fu
   return {
     restrict: "A",
     scope: {
-      content: "=ngModel"
+      content: "=ngModel",
+      zIndex: '@zIndex'
     },
     link: function(scope, element, attrs) {
-      var ue;
-      LazyLoader.loadQueue(["libs/ueditor/ueditor.parse.js", "libs/ueditor/ueditor.config.js", "libs/ueditor/ueditor.all.min.js", "libs/ueditor/lang/zh-cn/zh-cn.js"])
+      var ue,
+        elementId = element[0].id;
+      if (!elementId) {
+        throw new Error('element must have ID attribute!')
+      }
+
+      LazyLoader.loadQueue(["libs/ueditor/ueditor.config.js", "libs/ueditor/ueditor.all.min.js", "libs/ueditor/lang/zh-cn/zh-cn.js"])
         .then(function() {
-          ue = UE.getEditor(element[0].id);
-          var lastContent = scope.content;
+          var options = {},
+            lastContent,
+			 zIndex = scope.zIndex;
+
+          if(zIndex||(!isNaN(zIndex)&&angular.isNumber(zIndex))){
+			  options.zIndex = Number(zIndex);
+		  }
+
+          ue = UE.getEditor(elementId, options);
+          lastContent = scope.content;
 
           ue.ready(function() {
             if (scope.content) {
@@ -1994,6 +2008,8 @@ angular.module("sn.controls").directive("ueditor", ["LazyLoader", "$timeout", fu
     }
   };
 }]);
+
+
 
 angular.module("sn.controls").directive("placeholder", ["$document",
   function($document) {

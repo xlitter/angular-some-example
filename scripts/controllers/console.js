@@ -30,7 +30,7 @@ angular.module('app').controller('ConsoleCtrl', ['$rootScope', '$scope', '$state
           o: 0
         }],
         o: 0
-      },{
+      }, {
         name: '图片上传',
         clazz: 'fa fa-circle-o',
         children: [{
@@ -39,7 +39,7 @@ angular.module('app').controller('ConsoleCtrl', ['$rootScope', '$scope', '$state
           state: 'ImageUpload',
           relation: [],
           o: 0
-        },{
+        }, {
           name: '图片上传2',
           clazz: 'fa fa-circle-o',
           state: 'ImageUpload2',
@@ -47,7 +47,19 @@ angular.module('app').controller('ConsoleCtrl', ['$rootScope', '$scope', '$state
           o: 0
         }],
         o: 0
+      }, {
+        name: '文本编辑器',
+        clazz: 'fa fa-circle-o',
+        children: [{
+          name: '文本编辑器',
+          clazz: 'fa fa-circle-o',
+          state: 'Ueditor',
+          relation: [],
+          o: 0
+        }],
+        o: 0
       }];
+
     /////////////functions///////////////
     //添加菜单层级与父元素
     function reCfgMenus(menus, parent, level) {

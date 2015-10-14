@@ -61,12 +61,19 @@ app.config(['$stateProvider', '$urlRouterProvider',
         url: '/imageupload',
         templateUrl: 'partials/uploader/uploader.html',
         controller: 'ImageUploadCtrl'
-      }).state('ImageUpload2',{
+      })
+	  .state('ImageUpload2',{
         parent: 'Console',
         url: '/imageupload2',
         templateUrl: 'partials/uploader/uploader2.html',
         controller: 'ImageUpload2Ctrl'
-      });
+      })
+	  .state('Ueditor', {
+		parent: 'Console',
+		url: '/ueditor',
+		templateUrl: 'partials/ueditor/ueditor.html',
+		controller: 'UeditorCtrl'
+	   });
   }
 ]);
 

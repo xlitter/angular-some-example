@@ -1,4 +1,4 @@
-angular.module('app').constroller('UeditorCtrl', function($scope){
+angular.module('app').controller('UeditorCtrl', function($scope){
   'use strict';
   
   var vm = $scope,
