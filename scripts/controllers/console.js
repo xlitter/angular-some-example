@@ -58,6 +58,18 @@ angular.module('app').controller('ConsoleCtrl', ['$rootScope', '$scope', '$state
           o: 0
         }],
         o: 0
+      },
+      {
+        name: '滚动条',
+        clazz: 'fa fa-circle-o',
+        children: [{
+          name: '滚动条',
+          clazz: 'fa fa-circle-o',
+          state: 'ScrollBar',
+          relation: [],
+          o: 0
+        }],
+        o: 0
       }];
 
     /////////////functions///////////////

@@ -57,39 +57,43 @@
       </div>
       <!-- /.user-panel -->
       <!-- Sidebar Menu -->
-      <ul class="sidebar-menu">
+      <ul class="sidebar-menu ">
         <li class="header">主菜单</li>
-        <!-- Optionally, you can add icons to the links -->
-        <li class="treeview"
-         ng-repeat="menu in menus track by $index | orderBy : 'o'" 
-         ng-click="selectMenu($event, menu)"
-         ng-class="{'active': menu === formData.selectedMenu1 }">
-          <a href="#">
-             <i class="{{menu.clazz}}"></i>
-            <span>{{menu.name}}</span>
-            <i ng-show="menu.children != null"class="fa fa-angle-left pull-right"></i>
-          </a>
-          <ul class="treeview-menu">
-            <li ng-repeat="menu2 in menu.children track by $index | orderBy : 'o'"
-              ng-click="selectMenu($event, menu2)" 
-             ng-class="{'active': menu2 === formData.selectedMenu2}"
-             class="treeview">
+        <li   scroll-bar margin-top-offset="155">
+          <ul class="sidebar-menu " >
+            <!-- Optionally, you can add icons to the links -->
+            <li class="treeview"
+            ng-repeat="menu in menus track by $index | orderBy : 'o'" 
+            ng-click="selectMenu($event, menu)"
+            ng-class="{'active': menu === formData.selectedMenu1 }">
               <a href="#">
-                <i class="{{menu2.clazz}}"></i>
-                {{menu2.name}} 
-                <i ng-show="menu2.children != null" class="fa fa-angle-left pull-right"></i></a>
+                <i class="{{menu.clazz}}"></i>
+                <span>{{menu.name}}</span>
+                <i ng-show="menu.children != null"class="fa fa-angle-left pull-right"></i>
+              </a>
               <ul class="treeview-menu">
-                <li ng-repeat="menu3 in menu2.children track by $index | orderBy: 'o'" 
-                 ng-class="{'active':  menu3 === formData.selectedMenu3}"
-                 ng-click="selectMenu($event, menu3)">
-                  <a href="#" >
-                    <i class="{{menu3.clazz}}"></i>
-                    {{menu3.name}} 
-                  </a>
+                <li ng-repeat="menu2 in menu.children track by $index | orderBy : 'o'"
+                  ng-click="selectMenu($event, menu2)" 
+                ng-class="{'active': menu2 === formData.selectedMenu2}"
+                class="treeview">
+                  <a href="#">
+                    <i class="{{menu2.clazz}}"></i>
+                    {{menu2.name}} 
+                    <i ng-show="menu2.children != null" class="fa fa-angle-left pull-right"></i></a>
+                  <ul class="treeview-menu">
+                    <li ng-repeat="menu3 in menu2.children track by $index | orderBy: 'o'" 
+                    ng-class="{'active':  menu3 === formData.selectedMenu3}"
+                    ng-click="selectMenu($event, menu3)">
+                      <a href="#" >
+                        <i class="{{menu3.clazz}}"></i>
+                        {{menu3.name}} 
+                      </a>
+                    </li>
+                  </ul>
                 </li>
               </ul>
             </li>
-          </ul>
+           </ul>
         </li>
       </ul>
       <!-- /.sidebar-menu -->

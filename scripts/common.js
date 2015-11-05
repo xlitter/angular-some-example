@@ -1,10 +1,10 @@
 angular.module("sn.controls", []);
 
-angular.module("sn.controls").service("EventBus", [function() {
+angular.module("sn.controls").service("EventBus", [function () {
   var eventMap = {};
 
   return {
-    on: function(eventType, handler) {
+    on: function (eventType, handler) {
       //multiple event listener
       if (!eventMap[eventType]) {
         eventMap[eventType] = [];
@@ -12,7 +12,7 @@ angular.module("sn.controls").service("EventBus", [function() {
       eventMap[eventType].push(handler);
     },
 
-    off: function(eventType, handler) {
+    off: function (eventType, handler) {
       for (var i = 0; i < eventMap[eventType].length; i++) {
         if (eventMap[eventType][i] === handler) {
           eventMap[eventType].splice(i, 1);
@@ -21,7 +21,7 @@ angular.module("sn.controls").service("EventBus", [function() {
       }
     },
 
-    fire: function(event) {
+    fire: function (event) {
       var eventType = event.type;
       if (eventMap[eventType]) {
         for (var i = 0; i < eventMap[eventType].length; i++) {
@@ -32,7 +32,7 @@ angular.module("sn.controls").service("EventBus", [function() {
   };
 }]);
 
-angular.module("sn.controls").service("LoginService", [function() {
+angular.module("sn.controls").service("LoginService", [function () {
   /* passport相关的东西 */
   var loginCallbackStack = [];
   var intervalVar;
@@ -146,7 +146,7 @@ angular.module("sn.controls").service("LoginService", [function() {
 
 angular.module("sn.controls").service("HttpService", ["$http", "$q", "$document", "$location",
   "AlertService", "LoginService", "EventBus", "baseUrl", "ErrorHandle",
-  function($http, $q, $document, $location, AlertService, LoginService, EventBus, baseUrl, ErrorHandle) {
+  function ($http, $q, $document, $location, AlertService, LoginService, EventBus, baseUrl, ErrorHandle) {
     var loginUrl = LoginService.config.base + 'authStatus?callback=JSON_CALLBACK&_t=' + (+new Date());
 
     function busy() {
@@ -161,13 +161,13 @@ angular.module("sn.controls").service("HttpService", ["$http", "$q", "$document"
       var defer = $q.defer();
       busy();
 
-      $http[method](url, params).success(function(result) {
+      $http[method](url, params).success(function (result) {
         idle();
 
         ErrorHandle.handle(result)
-          .then(function(data) {
+          .then(function (data) {
             defer.resolve(data);
-          }, function(data) {
+          }, function (data) {
             defer.reject(data);
           });
 
@@ -183,7 +183,7 @@ angular.module("sn.controls").service("HttpService", ["$http", "$q", "$document"
         }else{
             defer.resolve(result);
         }*/
-      }).error(function(reason, status) {
+      }).error(function (reason, status) {
         idle();
 
         var errorContent = reason;
@@ -195,7 +195,7 @@ angular.module("sn.controls").service("HttpService", ["$http", "$q", "$document"
           AlertService.alert({
             title: "服务端异常",
             content: '系统出了点小问题，请稍后重试！'
-              //content: errorContent
+            //content: errorContent
           });
         }
         defer.reject(reason);
@@ -205,7 +205,7 @@ angular.module("sn.controls").service("HttpService", ["$http", "$q", "$document"
     }
 
     return {
-      "get": function(url, param, option) {
+      "get": function (url, param, option) {
         var defer = $q.defer();
 
         /*if (option && option.unrestricted) {
@@ -245,16 +245,16 @@ angular.module("sn.controls").service("HttpService", ["$http", "$q", "$document"
         }*/
 
         sendRequest(baseUrl + url, {
-            params: param
-          }, "get")
-          .then(function(result) {
+          params: param
+        }, "get")
+          .then(function (result) {
             defer.resolve(result);
-          }, function(data) {
+          }, function (data) {
             defer.reject(data);
           });
         return defer.promise;
       },
-      "post": function(url, param, option) {
+      "post": function (url, param, option) {
         var defer = $q.defer();
 
         /*if (option && option.unrestricted) {
@@ -293,13 +293,13 @@ angular.module("sn.controls").service("HttpService", ["$http", "$q", "$document"
         	});
         }*/
         sendRequest(baseUrl + url, param, "post").then(
-          function(result) {
+          function (result) {
             defer.resolve(result);
           },
-          function(data) {
+          function (data) {
             defer.reject(data);
           }
-        );
+          );
         return defer.promise;
       }
     };
@@ -307,15 +307,15 @@ angular.module("sn.controls").service("HttpService", ["$http", "$q", "$document"
 ]);
 
 
-angular.module("sn.controls").service("DialogService", ["$http", "$document", "$rootScope", "$compile", '$q', function($http, $document, $rootScope, $compile, $q) {
+angular.module("sn.controls").service("DialogService", ["$http", "$document", "$rootScope", "$compile", '$q', function ($http, $document, $rootScope, $compile, $q) {
   var zIndex = 1050;
   var dialogCounter = 0;
 
   var dialogMap = {};
   return {
-    modal: function(param, data) {
+    modal: function (param, data) {
       var defer = $q.defer();
-      $http.get(param.url).then(function(result) {
+      $http.get(param.url).then(function (result) {
         dialogCounter += 2;
 
         dialogMap[param.key] = param;
@@ -343,7 +343,7 @@ angular.module("sn.controls").service("DialogService", ["$http", "$document", "$
       });
     },
 
-    accept: function(key, result) {
+    accept: function (key, result) {
       this.dismiss(key);
 
       if (dialogMap[key].accept) {
@@ -351,7 +351,7 @@ angular.module("sn.controls").service("DialogService", ["$http", "$document", "$
       }
     },
 
-    refuse: function(key, reason) {
+    refuse: function (key, reason) {
       this.dismiss(key);
 
       if (dialogMap[key].refuse) {
@@ -359,31 +359,31 @@ angular.module("sn.controls").service("DialogService", ["$http", "$document", "$
       }
     },
 
-    dismiss: function(key) {
+    dismiss: function (key) {
       dialogMap[key].mask.remove();
       dialogMap[key].dialog.remove();
       //            delete dialogMap[key];
     },
 
-    hide: function(key) {
-      dialogMap[key].promise.then(function() {
+    hide: function (key) {
+      dialogMap[key].promise.then(function () {
         dialogMap[key].mask.hide();
         dialogMap[key].dialog.hide();
       });
     },
 
-    show: function(key) {
+    show: function (key) {
       dialogMap[key].mask && dialogMap[key].mask.show();
       dialogMap[key].dialog && dialogMap[key].dialog.show();
     },
 
-    dismissAll: function() {
+    dismissAll: function () {
       for (var key in dialogMap) {
         this.dismiss(key);
       }
     },
 
-    postMessage: function(key, type, message) {
+    postMessage: function (key, type, message) {
       if (dialogMap[key].messageHandler) {
         if (dialogMap[key].messageHandler[type]) {
           dialogMap[key].messageHandler[type](message);
@@ -393,7 +393,7 @@ angular.module("sn.controls").service("DialogService", ["$http", "$document", "$
   };
 }]);
 
-angular.module("sn.controls").service("AlertService", ["$http", "$document", "$q", "$rootScope", "$compile", function($http, $document, $q, $rootScope, $compile) {
+angular.module("sn.controls").service("AlertService", ["$http", "$document", "$q", "$rootScope", "$compile", function ($http, $document, $q, $rootScope, $compile) {
   var zIndex = 1200;
   var dialogCounter = 0;
 
@@ -419,10 +419,10 @@ angular.module("sn.controls").service("AlertService", ["$http", "$document", "$q
   }
 
   var service = {
-    alert: function(param) {
+    alert: function (param) {
       var defer = $q.defer();
 
-      getTemplate().then(function(dialogTpl) {
+      getTemplate().then(function (dialogTpl) {
         var dialog;
         dialogCounter++;
 
@@ -433,11 +433,11 @@ angular.module("sn.controls").service("AlertService", ["$http", "$document", "$q
         var data = $rootScope.$new();
         angular.extend(data, param);
 
-        data.ok = function() {
+        data.ok = function () {
           service.dismiss(dialog);
           defer.resolve("ok");
         };
-        data.close = function() {
+        data.close = function () {
           service.dismiss(dialog);
           defer.resolve("ok");
         };
@@ -451,10 +451,10 @@ angular.module("sn.controls").service("AlertService", ["$http", "$document", "$q
 
       return defer.promise;
     },
-    confirm: function(param) {
+    confirm: function (param) {
       var defer = $q.defer();
 
-      getTemplate().then(function(dialogTpl) {
+      getTemplate().then(function (dialogTpl) {
         var dialog;
         dialogCounter++;
 
@@ -465,15 +465,15 @@ angular.module("sn.controls").service("AlertService", ["$http", "$document", "$q
         var data = $rootScope.$new();
         angular.extend(data, param);
 
-        data.ok = function() {
+        data.ok = function () {
           service.dismiss(dialog);
           defer.resolve("ok");
         };
-        data.cancel = function() {
+        data.cancel = function () {
           service.dismiss(dialog);
           defer.reject("cancel");
         };
-        data.close = function() {
+        data.close = function () {
           service.dismiss(dialog);
           defer.reject("cancel");
         };
@@ -487,7 +487,7 @@ angular.module("sn.controls").service("AlertService", ["$http", "$document", "$q
 
       return defer.promise;
     },
-    dismiss: function(dialog) {
+    dismiss: function (dialog) {
       dialogCounter--;
       dialog.remove();
 
@@ -500,7 +500,7 @@ angular.module("sn.controls").service("AlertService", ["$http", "$document", "$q
   return service;
 }]);
 
-angular.module("sn.controls").service("PreviewService", ["$document", "$http", "$compile", "$rootScope", function($document, $http, $compile, $rootScope) {
+angular.module("sn.controls").service("PreviewService", ["$document", "$http", "$compile", "$rootScope", function ($document, $http, $compile, $rootScope) {
   var container;
   if (!document.getElementById("previewContainer")) {
     container = angular.element("<div class='sn-preview-container'>");
@@ -511,7 +511,7 @@ angular.module("sn.controls").service("PreviewService", ["$document", "$http", "
 
   var mask = angular.element('<div class="modal-backdrop fade in"></div>');
 
-  $document.on("click", function(evt) {
+  $document.on("click", function (evt) {
     var src = evt.srcElement ? evt.srcElement : evt.target;
     if (!container[0].contains(src)) {
       hide();
@@ -524,7 +524,7 @@ angular.module("sn.controls").service("PreviewService", ["$document", "$http", "
   }
 
   function showImages(url) {
-    $http.get("templates/preview/image.html").then(function(result) {
+    $http.get("templates/preview/image.html").then(function (result) {
       var pop = angular.element(result.data);
       $document.find("body").append(mask);
       mask.css("z-index", 1200);
@@ -536,7 +536,7 @@ angular.module("sn.controls").service("PreviewService", ["$document", "$http", "
       var scope = angular.extend($rootScope.$new(), {
         url: url
       });
-      scope.close = function() {
+      scope.close = function () {
         hide();
       };
 
@@ -546,7 +546,7 @@ angular.module("sn.controls").service("PreviewService", ["$document", "$http", "
   }
 
   return {
-    preview: function(url, type) {
+    preview: function (url, type) {
       switch (type.trim().toLowerCase()) {
         case "jpg":
         case "jpeg":
@@ -563,12 +563,12 @@ angular.module("sn.controls").service("PreviewService", ["$document", "$http", "
   };
 }]);
 
-angular.module("sn.controls").service("HintService", ["$http", "$compile", "$rootScope", function($http, $compile, $rootScope) {
+angular.module("sn.controls").service("HintService", ["$http", "$compile", "$rootScope", function ($http, $compile, $rootScope) {
   var container = angular.element(document.getElementById("hintContainer"));
 
   return {
-    hint: function(param, url, duration) {
-      $http.get(url || "templates/hint/hint.html").then(function(result) {
+    hint: function (param, url, duration) {
+      $http.get(url || "templates/hint/hint.html").then(function (result) {
         var hint = angular.element(result.data);
 
         hint.css("display", "block");
@@ -578,14 +578,14 @@ angular.module("sn.controls").service("HintService", ["$http", "$compile", "$roo
         $compile(hint)(scope);
         container.prepend(hint);
 
-        setTimeout(function() {
+        setTimeout(function () {
           hint.addClass("in");
         }, 10);
 
-        setTimeout(function() {
+        setTimeout(function () {
           hint.removeClass("in");
 
-          setTimeout(function() {
+          setTimeout(function () {
             hint.remove();
           }, 500);
         }, duration || 5000);
@@ -594,9 +594,9 @@ angular.module("sn.controls").service("HintService", ["$http", "$compile", "$roo
   };
 }]);
 
-angular.module("sn.controls").service("UIHelper", function() {
+angular.module("sn.controls").service("UIHelper", function () {
   return {
-    getOffset: function(element) {
+    getOffset: function (element) {
       var x = 0;
       var y = 0;
 
@@ -615,14 +615,14 @@ angular.module("sn.controls").service("UIHelper", function() {
   };
 });
 
-angular.module("sn.controls").directive("snIndeterminate", [function() {
+angular.module("sn.controls").directive("snIndeterminate", [function () {
   return {
     restrict: "A",
     scope: {
       _checkboxValue: "=ngModel"
     },
-    link: function(scope, element, attrs) {
-      scope.$watch("_checkboxValue", function(value) {
+    link: function (scope, element, attrs) {
+      scope.$watch("_checkboxValue", function (value) {
         if (angular.isUndefined(value) || value === null) {
           element[0].indeterminate = true;
         } else {
@@ -633,18 +633,18 @@ angular.module("sn.controls").directive("snIndeterminate", [function() {
   };
 }]);
 
-angular.module("sn.controls").directive("snDropdown", ["$document", function($document) {
+angular.module("sn.controls").directive("snDropdown", ["$document", function ($document) {
   return {
     restrict: "A",
-    link: function(scope, element, attrs) {
-      angular.element(element[0].querySelector(".dropdown-toggle")).on("click", function(evt) {
+    link: function (scope, element, attrs) {
+      angular.element(element[0].querySelector(".dropdown-toggle")).on("click", function (evt) {
         element.toggleClass("open");
 
         evt.preventDefault();
         evt.stopPropagation();
       });
 
-      $document.on("click", function() {
+      $document.on("click", function () {
         element.removeClass("open");
       });
     }
@@ -652,20 +652,20 @@ angular.module("sn.controls").directive("snDropdown", ["$document", function($do
 }]);
 
 angular.module("sn.controls").directive("snContextmenu", ["$document", "$http", "$compile", "$rootScope", "UIHelper",
-  function($document, $http, $compile, $rootScope, UIHelper) {
+  function ($document, $http, $compile, $rootScope, UIHelper) {
     var currentMenu;
 
     return {
       restrict: "A",
-      link: function(scope, element, attrs) {
-        $http.get("templates/menu/menu.html").then(function(result) {
+      link: function (scope, element, attrs) {
+        $http.get("templates/menu/menu.html").then(function (result) {
           var menu = angular.element(result.data);
 
           $compile(menu)(angular.extend($rootScope.$new(), {
             menuArr: scope.$eval(attrs["snContextmenu"])
           }));
 
-          element.on("contextmenu", function(evt) {
+          element.on("contextmenu", function (evt) {
             var target = evt.target;
             var offset = UIHelper.getOffset(target);
 
@@ -692,7 +692,7 @@ angular.module("sn.controls").directive("snContextmenu", ["$document", "$http", 
             currentMenu = menu;
           });
 
-          $document.on("click", function(evt) {
+          $document.on("click", function (evt) {
             menu.css("display", "none");
           });
         });
@@ -702,15 +702,15 @@ angular.module("sn.controls").directive("snContextmenu", ["$document", "$http", 
 ]);
 
 angular.module("sn.controls").directive("snTooltip", ["$document", "$http", "$compile", "$rootScope", "UIHelper",
-  function($document, $http, $compile, $rootScope, UIHelper) {
+  function ($document, $http, $compile, $rootScope, UIHelper) {
     return {
       restrict: "A",
-      link: function(scope, element, attrs) {
+      link: function (scope, element, attrs) {
         var content = attrs.snTooltip;
 
         var tooltip;
 
-        $http.get("templates/tooltip/tooltip.html").then(function(result) {
+        $http.get("templates/tooltip/tooltip.html").then(function (result) {
           tooltip = angular.element(result.data);
 
           var newScope = angular.extend($rootScope.$new(), {
@@ -718,7 +718,7 @@ angular.module("sn.controls").directive("snTooltip", ["$document", "$http", "$co
           });
           $compile(tooltip)(newScope);
 
-          element.on("mouseenter", function(evt) {
+          element.on("mouseenter", function (evt) {
             var target = evt.target;
             var offset = UIHelper.getOffset(target);
 
@@ -734,7 +734,7 @@ angular.module("sn.controls").directive("snTooltip", ["$document", "$http", "$co
             tooltip.css("top", y + "px");
           });
 
-          element.on("mouseleave", function() {
+          element.on("mouseleave", function () {
             tooltip.remove();
           });
         });
@@ -744,21 +744,21 @@ angular.module("sn.controls").directive("snTooltip", ["$document", "$http", "$co
 ]);
 
 
-angular.module("sn.controls").directive('snPager', function() {
+angular.module("sn.controls").directive('snPager', function () {
   return {
     restrict: 'EA',
     scope: {
       //            currentPage: "=",
       //            setPage: "&"
     },
-    controller: function($scope, pagerConfig) {
+    controller: function ($scope, pagerConfig) {
 
       $scope.pages = [];
 
       $scope.currentPage = $scope.currentPage || 0;
       $scope.totalItems = $scope.totalItems || 0;
 
-      $scope.$watch("currentPage", function(value) {
+      $scope.$watch("currentPage", function (value) {
         if (value) {
           $scope.selectPage(value);
         }
@@ -798,14 +798,14 @@ angular.module("sn.controls").directive('snPager', function() {
         }
       }
 
-      $scope.$watch('itemsPerPage', function(newVal) {
+      $scope.$watch('itemsPerPage', function (newVal) {
         if (newVal) {
           resetPager();
         }
 
       });
 
-      $scope.$watch("totalItems", function(newVal) {
+      $scope.$watch("totalItems", function (newVal) {
         if (newVal) {
           resetPager();
         }
@@ -835,19 +835,19 @@ angular.module("sn.controls").directive('snPager', function() {
         }
       };
 
-      $scope.getText = function(key) {
+      $scope.getText = function (key) {
         return pagerConfig.text[key];
       };
 
-      $scope.isFirst = function() {
+      $scope.isFirst = function () {
         return $scope.currentPage <= 0;
       };
 
-      $scope.isLast = function() {
+      $scope.isLast = function () {
         return $scope.currentPage >= $scope.totalPages - 1;
       };
 
-      $scope.selectPage = function(value) {
+      $scope.selectPage = function (value) {
         if (value == $scope.currentPage) {
           return;
         }
@@ -875,35 +875,35 @@ angular.module("sn.controls").directive('snPager', function() {
         $scope.$emit("sn.controls.pager:pageIndexChanged", $scope.pages[$scope.currentPage - $scope.pageOffset]);
       };
 
-      $scope.first = function() {
+      $scope.first = function () {
         if (this.isFirst()) {
           return;
         }
         this.selectPage(0);
       };
 
-      $scope.last = function() {
+      $scope.last = function () {
         if (this.isLast()) {
           return;
         }
         this.selectPage(this.totalPages - 1);
       };
 
-      $scope.previous = function() {
+      $scope.previous = function () {
         if (this.isFirst()) {
           return;
         }
         this.selectPage(this.currentPage - 1);
       };
 
-      $scope.next = function() {
+      $scope.next = function () {
         if (this.isLast()) {
           return;
         }
         this.selectPage(this.currentPage + 1);
       };
 
-      $scope.resetActive = function(value) {
+      $scope.resetActive = function (value) {
         var pageOffset = $scope.pageOffset,
           currentPage = $scope.currentPage,
           pages = $scope.pages;
@@ -917,18 +917,18 @@ angular.module("sn.controls").directive('snPager', function() {
 
       };
     },
-    link: function(scope, element, attrs) {
+    link: function (scope, element, attrs) {
       scope.itemsPerPage = (attrs.itemsperpage - 0) || 10;
       scope.listSize = (attrs.listsize - 0) || 10;
 
-      attrs.$observe("totalitems", function(value) {
+      attrs.$observe("totalitems", function (value) {
         scope.totalItems = value || 0;
       });
-      attrs.$observe('itemsperpage', function(value) {
+      attrs.$observe('itemsperpage', function (value) {
         scope.itemsPerPage = value || 10;
       })
 
-      scope.$on('sn.controls.pager:toPage', function(e, pageIdx) {
+      scope.$on('sn.controls.pager:toPage', function (e, pageIdx) {
         pagerIdx = pageIdx && Number(pageIdx) || 0;
         //              scope.selectPage(pageIdx-1);
         scope.resetActive(pageIdx - 1);
@@ -946,7 +946,7 @@ angular.module("sn.controls").directive('snPager', function() {
   }
 });
 
-angular.module("sn.controls").directive("snCalendar", [function() {
+angular.module("sn.controls").directive("snCalendar", [function () {
   return {
     restrict: "E",
     scope: {
@@ -954,7 +954,7 @@ angular.module("sn.controls").directive("snCalendar", [function() {
       maxDate: "=",
       dateInited: '='
     },
-    controller: function($scope) {
+    controller: function ($scope) {
       var realCalendar = {};
       $scope.viewMode = 0;
 
@@ -974,7 +974,7 @@ angular.module("sn.controls").directive("snCalendar", [function() {
 
       init();
 
-      $scope.$watch('minDate', function(minDate) {
+      $scope.$watch('minDate', function (minDate) {
         var now, year, month, date;
         if (minDate && !$scope.dateInited) {
           minDate = new Date(minDate);
@@ -991,7 +991,7 @@ angular.module("sn.controls").directive("snCalendar", [function() {
         }
       });
 
-      $scope.$watch('maxDate', function(maxDate) {
+      $scope.$watch('maxDate', function (maxDate) {
         var now, year, month, date;
         if (maxDate && !$scope.dateInited) {
           maxDate = new Date(maxDate);
@@ -1009,7 +1009,7 @@ angular.module("sn.controls").directive("snCalendar", [function() {
       });
 
 
-      $scope.$watch("currentYear", function(newYear, oldYear) {
+      $scope.$watch("currentYear", function (newYear, oldYear) {
         /* if (newYear != oldYear) {
              $scope.$emit("sn.controls.calendar:yearChanged", newYear);
          }*/
@@ -1018,7 +1018,7 @@ angular.module("sn.controls").directive("snCalendar", [function() {
         generateCalendar(newYear, $scope.currentMonth);
       });
 
-      $scope.$watch("currentMonth", function(newMonth, oldMonth) {
+      $scope.$watch("currentMonth", function (newMonth, oldMonth) {
         /*if (newMonth != oldMonth) {
             $scope.$emit("sn.controls.calendar:monthChanged", newMonth);
         }*/
@@ -1026,7 +1026,7 @@ angular.module("sn.controls").directive("snCalendar", [function() {
         generateCalendar($scope.currentYear, newMonth);
       });
 
-      $scope.$watch("currentDate", function(newDate, oldDate) {
+      $scope.$watch("currentDate", function (newDate, oldDate) {
         /*if (newDate != oldDate) {
             $scope.$emit("sn.controls.calendar:dateChanged", newDate);
         }*/
@@ -1069,7 +1069,7 @@ angular.module("sn.controls").directive("snCalendar", [function() {
         return new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()) <= new Date(date2.getFullYear(), date2.getMonth(), date2.getDate() - 1);
       }
 
-      $scope.dateClass = function(date) {
+      $scope.dateClass = function (date) {
         var realYear = realCalendar.year,
           year = $scope.currentYear,
           realMonth = realCalendar.month,
@@ -1091,7 +1091,7 @@ angular.module("sn.controls").directive("snCalendar", [function() {
         }
       };
 
-      $scope.monthClass = function(month) {
+      $scope.monthClass = function (month) {
         if ($scope.currentMonth == month) {
           return "active month";
         } else {
@@ -1099,7 +1099,7 @@ angular.module("sn.controls").directive("snCalendar", [function() {
         }
       };
 
-      $scope.yearClass = function(year) {
+      $scope.yearClass = function (year) {
         if ($scope.currentYear == year) {
           return "active year";
         } else {
@@ -1107,7 +1107,7 @@ angular.module("sn.controls").directive("snCalendar", [function() {
         }
       };
 
-      $scope.selectDate = function(date, dblClick) {
+      $scope.selectDate = function (date, dblClick) {
         var year = $scope.currentYear,
           realYear = realCalendar.year,
           month = $scope.currentMonth,
@@ -1141,50 +1141,50 @@ angular.module("sn.controls").directive("snCalendar", [function() {
         }
       };
 
-      $scope.selectMonth = function(month) {
+      $scope.selectMonth = function (month) {
         $scope.currentMonth = month;
         $scope.switchView(0);
       };
 
-      $scope.selectYear = function(year) {
+      $scope.selectYear = function (year) {
         $scope.currentYear = year;
         $scope.switchView(1);
       };
 
-      $scope.currentMonthStr = function() {
+      $scope.currentMonthStr = function () {
         return $scope.currentYear + "年 " + $scope.months[$scope.currentMonth];
       };
 
-      $scope.currentAgeStr = function() {
+      $scope.currentAgeStr = function () {
         var startIndex = Math.floor($scope.currentYear / 10) * 10 + 1;
         return startIndex + " - " + (startIndex + 9);
       };
 
-      $scope.previousMonth = function() {
+      $scope.previousMonth = function () {
         $scope.currentMonth--;
         resetDate();
       };
 
-      $scope.nextMonth = function() {
+      $scope.nextMonth = function () {
         $scope.currentMonth++;
         resetDate();
       };
 
-      $scope.previousYear = function() {
+      $scope.previousYear = function () {
         $scope.currentYear--;
         resetDate();
       };
 
-      $scope.nextYear = function() {
+      $scope.nextYear = function () {
         $scope.currentYear++;
         resetDate();
       };
 
-      $scope.previousAge = function() {
+      $scope.previousAge = function () {
         $scope.currentYear -= 10;
       };
 
-      $scope.nextAge = function() {
+      $scope.nextAge = function () {
         $scope.currentYear += 10;
       };
 
@@ -1197,13 +1197,13 @@ angular.module("sn.controls").directive("snCalendar", [function() {
 
       }
 
-      $scope.switchView = function(view) {
+      $scope.switchView = function (view) {
         //0：日期；1：月；2：年
         $scope.viewMode = view;
       };
 
     },
-    link: function(scope, element, attrs) {
+    link: function (scope, element, attrs) {
       if (attrs["initYear"]) {
         scope.currentYear = scope.$parent.$eval(attrs["initYear"]);
       }
@@ -1220,11 +1220,11 @@ angular.module("sn.controls").directive("snCalendar", [function() {
   }
 }]);
 
-angular.module("sn.controls").directive("snTimepicker", [function() {
+angular.module("sn.controls").directive("snTimepicker", [function () {
   return {
     restrict: "E",
     scope: {},
-    controller: function($scope) {
+    controller: function ($scope) {
       $scope.viewMode = 3;
 
       $scope.hours = [];
@@ -1252,25 +1252,25 @@ angular.module("sn.controls").directive("snTimepicker", [function() {
 
       init();
 
-      $scope.$watch("currentHour", function(newHour, oldHour) {
+      $scope.$watch("currentHour", function (newHour, oldHour) {
         if (newHour != oldHour) {
           $scope.$emit("sn.controls.timePicker:hourChanged", newHour);
         }
       });
 
-      $scope.$watch("currentMinute", function(newMinute, oldMinute) {
+      $scope.$watch("currentMinute", function (newMinute, oldMinute) {
         if (newMinute != oldMinute) {
           $scope.$emit("sn.controls.timePicker:minuteChanged", newMinute);
         }
       });
 
-      $scope.$watch("currentSecond", function(newSecond, oldSecond) {
+      $scope.$watch("currentSecond", function (newSecond, oldSecond) {
         if (newSecond != oldSecond) {
           $scope.$emit("sn.controls.timePicker:secondChanged", newSecond);
         }
       });
 
-      $scope.hourClass = function(hour) {
+      $scope.hourClass = function (hour) {
         if ($scope.currentHour == hour) {
           return "active hour";
         } else {
@@ -1278,7 +1278,7 @@ angular.module("sn.controls").directive("snTimepicker", [function() {
         }
       };
 
-      $scope.minuteClass = function(minute) {
+      $scope.minuteClass = function (minute) {
         if ($scope.currentMinute == minute) {
           return "active minute";
         } else {
@@ -1286,7 +1286,7 @@ angular.module("sn.controls").directive("snTimepicker", [function() {
         }
       };
 
-      $scope.secondClass = function(second) {
+      $scope.secondClass = function (second) {
         if ($scope.currentSecond == second) {
           return "active second";
         } else {
@@ -1294,51 +1294,51 @@ angular.module("sn.controls").directive("snTimepicker", [function() {
         }
       };
 
-      $scope.selectHour = function(hour) {
+      $scope.selectHour = function (hour) {
         $scope.currentHour = hour;
         $scope.switchView(3);
       };
 
-      $scope.selectMinute = function(minute) {
+      $scope.selectMinute = function (minute) {
         $scope.currentMinute = minute;
         $scope.switchView(3);
       };
 
-      $scope.selectSecond = function(second) {
+      $scope.selectSecond = function (second) {
         $scope.currentSecond = second;
         $scope.switchView(3);
       };
 
-      $scope.increaseHour = function() {
+      $scope.increaseHour = function () {
         $scope.currentHour = ($scope.currentHour + 1) % 24;
       };
 
-      $scope.decreaseHour = function() {
+      $scope.decreaseHour = function () {
         $scope.currentHour = ($scope.currentHour + 23) % 24;
       };
 
-      $scope.increaseMinute = function() {
+      $scope.increaseMinute = function () {
         $scope.currentMinute = ($scope.currentMinute + 1) % 60;
       };
 
-      $scope.decreaseMinute = function() {
+      $scope.decreaseMinute = function () {
         $scope.currentMinute = ($scope.currentMinute + 59) % 60;
       };
 
-      $scope.increaseSecond = function() {
+      $scope.increaseSecond = function () {
         $scope.currentSecond = ($scope.currentSecond + 1) % 60;
       };
 
-      $scope.decreaseSecond = function() {
+      $scope.decreaseSecond = function () {
         $scope.currentSecond = ($scope.currentSecond + 59) % 60;
       };
 
-      $scope.switchView = function(view) {
+      $scope.switchView = function (view) {
         //0：整体视图；1：时；2：分；3：秒
         $scope.viewMode = view;
       };
     },
-    link: function(scope, element, attrs) {
+    link: function (scope, element, attrs) {
       if (attrs["initHour"]) {
         scope.currentHour = scope.$parent.$eval(attrs["initHour"]);
       }
@@ -1355,7 +1355,7 @@ angular.module("sn.controls").directive("snTimepicker", [function() {
   }
 }]);
 
-angular.module("sn.controls").directive("snDatetimepicker", ["$document", "$filter", function($document, $filter) {
+angular.module("sn.controls").directive("snDatetimepicker", ["$document", "$filter", function ($document, $filter) {
   return {
     restrict: "EA",
     scope: {
@@ -1364,12 +1364,12 @@ angular.module("sn.controls").directive("snDatetimepicker", ["$document", "$filt
       minDate: "=",
       maxDate: "="
     },
-    link: function(scope, element, attrs) {
+    link: function (scope, element, attrs) {
       scope.placeholder = attrs["placeholder"] || "请选择日期";
 
       element.find("input").attr("placeholder", scope.placeholder);
 
-      $document.on("click", function(evt) {
+      $document.on("click", function (evt) {
         var src = evt.srcElement ? evt.srcElement : evt.target;
         if ((scope.pop) && (!element[0].contains(src))) {
           scope.pop = false;
@@ -1377,7 +1377,7 @@ angular.module("sn.controls").directive("snDatetimepicker", ["$document", "$filt
         }
       });
     },
-    controller: function($scope) {
+    controller: function ($scope) {
       var formatter;
       var date;
       if ($scope.showTime == false) {
@@ -1389,13 +1389,13 @@ angular.module("sn.controls").directive("snDatetimepicker", ["$document", "$filt
         date = $scope.currentDate ? new Date($scope.currentDate) : new Date();
       }
 
-      $scope.$watch("currentDate", function(newDate) {
+      $scope.$watch("currentDate", function (newDate) {
         $scope.currentDateStr = $filter('date')(newDate, formatter);
       });
 
       initDateTime(date);
 
-      $scope.datetimepickerClass = function() {
+      $scope.datetimepickerClass = function () {
         if ($scope.pop) {
           return "input-group date open";
         } else {
@@ -1404,7 +1404,7 @@ angular.module("sn.controls").directive("snDatetimepicker", ["$document", "$filt
       };
 
       var initialized = false;
-      $scope.showPop = function() {
+      $scope.showPop = function () {
         var minDate = $scope.minDate,
           maxDate = $scope.maxDate,
           showTime = $scope.showTime;
@@ -1467,7 +1467,7 @@ angular.module("sn.controls").directive("snDatetimepicker", ["$document", "$filt
           $scope.hour,
           $scope.minute,
           $scope.second
-        );
+          );
         $scope.currentDateStr = $filter('date')($scope.currentDate, formatter);
 
         if ($scope.$modelKey) {
@@ -1475,19 +1475,19 @@ angular.module("sn.controls").directive("snDatetimepicker", ["$document", "$filt
         }
       }
 
-      $scope.$on("sn.controls.calendar:yearChanged", function(evt, year) {
+      $scope.$on("sn.controls.calendar:yearChanged", function (evt, year) {
         $scope.year = year;
         buildDate();
         evt.stopPropagation();
       });
 
-      $scope.$on("sn.controls.calendar:monthChanged", function(evt, month) {
+      $scope.$on("sn.controls.calendar:monthChanged", function (evt, month) {
         $scope.month = month;
         buildDate();
         evt.stopPropagation();
       });
 
-      $scope.$on("sn.controls.calendar:dateChanged", function(evt, calendar) {
+      $scope.$on("sn.controls.calendar:dateChanged", function (evt, calendar) {
         $scope.year = calendar.year;
         $scope.month = calendar.month;
         $scope.date = calendar.date;
@@ -1503,19 +1503,19 @@ angular.module("sn.controls").directive("snDatetimepicker", ["$document", "$filt
         }
       });
 
-      $scope.$on("sn.controls.timePicker:hourChanged", function(evt, hour) {
+      $scope.$on("sn.controls.timePicker:hourChanged", function (evt, hour) {
         $scope.hour = hour;
         buildDate();
         evt.stopPropagation();
       });
 
-      $scope.$on("sn.controls.timePicker:minuteChanged", function(evt, minute) {
+      $scope.$on("sn.controls.timePicker:minuteChanged", function (evt, minute) {
         $scope.minute = minute;
         buildDate();
         evt.stopPropagation();
       });
 
-      $scope.$on("sn.controls.timePicker:secondChanged", function(evt, second) {
+      $scope.$on("sn.controls.timePicker:secondChanged", function (evt, second) {
         $scope.second = second;
         buildDate();
         evt.stopPropagation();
@@ -1525,62 +1525,62 @@ angular.module("sn.controls").directive("snDatetimepicker", ["$document", "$filt
   };
 }]);
 
-angular.module("sn.controls").directive("snStepper", ["$document", "UIHelper", function($document, UIHelper) {
+angular.module("sn.controls").directive("snStepper", ["$document", "UIHelper", function ($document, UIHelper) {
   return {
     restrict: "E",
     scope: {},
-    controller: function($scope) {
+    controller: function ($scope) {
       $scope.currentStep = 0;
       $scope.maxStep = 10;
 
-      $scope.stepperStyle = function() {
+      $scope.stepperStyle = function () {
         return {
           width: ($scope.currentStep * 100 / $scope.maxStep) + "%"
         };
       };
 
-      $scope.increase = function() {
+      $scope.increase = function () {
         $scope.changeValue($scope.currentStep + 1);
       };
 
-      $scope.decrease = function() {
+      $scope.decrease = function () {
         $scope.changeValue($scope.currentStep - 1);
       };
 
-      $scope.changeValue = function(value) {
+      $scope.changeValue = function (value) {
         if ((value >= 0) && (value <= $scope.maxStep) && (value != $scope.currentStep)) {
           $scope.currentStep = value;
           $scope.$emit("sn.controls.stepper:stepperValueChanged", $scope.currentStep);
         }
       };
     },
-    link: function(scope, element, attrs) {
+    link: function (scope, element, attrs) {
       scope.maxStep = (attrs["maxstep"] - 0) || 10;
 
-      attrs.$observe("maxstep", function(value) {
+      attrs.$observe("maxstep", function (value) {
         var maxStep = (value - 0) || 0;
         if (maxStep != scope.maxStep) {
           scope.maxStep = maxStep;
 
           if (scope.currentStep > scope.maxStep) {
-            setTimeout(function() {
+            setTimeout(function () {
               scope.changeValue(0);
             }, 0);
           }
         }
       });
 
-      attrs.$observe("currentstep", function(value) {
+      attrs.$observe("currentstep", function (value) {
         var step = (value - 0) || 0;
         if (step != scope.currentStep) {
-          setTimeout(function() {
+          setTimeout(function () {
             scope.changeValue(step);
 
           }, 0);
         }
       });
 
-      element.on("click", function(evt) {
+      element.on("click", function (evt) {
         var src = evt.srcElement ? evt.srcElement : evt.target;
 
         if (src.tagName != "DIV") {
@@ -1594,7 +1594,7 @@ angular.module("sn.controls").directive("snStepper", ["$document", "UIHelper", f
         scope.$digest();
       });
 
-      $document.on("keypress", function(evt) {
+      $document.on("keypress", function (evt) {
         if ((evt.keyCode || evt.which) == "45") {
           scope.decrease();
           scope.$digest();
@@ -1607,11 +1607,11 @@ angular.module("sn.controls").directive("snStepper", ["$document", "UIHelper", f
       var dragging = false;
       var value = scope.currentValue;
       var stepperEle = angular.element(element.find("div")[1]);
-      element.find("button").on("mousedown", function() {
+      element.find("button").on("mousedown", function () {
         dragging = true;
       });
 
-      $document.on("mousemove", function(evt) {
+      $document.on("mousemove", function (evt) {
         if (dragging) {
           var allWidth = element.children()[0].offsetWidth;
           var currentWidth = evt.clientX - UIHelper.getOffset(element.find("div")[1]).x;
@@ -1626,7 +1626,7 @@ angular.module("sn.controls").directive("snStepper", ["$document", "UIHelper", f
         }
       });
 
-      $document.on("mouseup", function() {
+      $document.on("mouseup", function () {
         if (dragging) {
           stepperEle.css("width", (value * 100 / scope.maxStep) + "%");
 
@@ -1643,16 +1643,16 @@ angular.module("sn.controls").directive("snStepper", ["$document", "UIHelper", f
 <sn-tree tree-id="areaTree" tree-data="ruleCollections" tree-tpl="checkboxTreeTpl"></sn-tree>
 
 */
-angular.module("sn.controls").directive('snTree', function($compile) {
+angular.module("sn.controls").directive('snTree', function ($compile) {
   return {
     restrict: "E",
     scope: {
       treeData: "="
     },
-    controller: function($scope) {
+    controller: function ($scope) {
       $scope.isTreeNode = true;
 
-      $scope.getRoot = function() {
+      $scope.getRoot = function () {
         var pointer = this;
         var parent = pointer.$parent;
         while (parent.isTreeNode) {
@@ -1663,7 +1663,7 @@ angular.module("sn.controls").directive('snTree', function($compile) {
         return pointer;
       };
 
-      $scope.state = function(node) {
+      $scope.state = function (node) {
         if (node.children && node.children.length > 0) {
           if (node.$collapsed) {
             return "fa fa-caret-right";
@@ -1675,7 +1675,7 @@ angular.module("sn.controls").directive('snTree', function($compile) {
         }
       };
 
-      $scope.type = function(node) {
+      $scope.type = function (node) {
         if (node.children && node.children.length > 0) {
           if (node.$collapsed) {
             return "fa fa-folder";
@@ -1687,7 +1687,7 @@ angular.module("sn.controls").directive('snTree', function($compile) {
         }
       };
 
-      $scope.select = function(node) {
+      $scope.select = function (node) {
         if (node != $scope.selectedNode) {
           var root = $scope.getRoot();
           if (root.selectedNode) {
@@ -1707,21 +1707,21 @@ angular.module("sn.controls").directive('snTree', function($compile) {
         }
       };
 
-      $scope.itemClick = function(node) {
+      $scope.itemClick = function (node) {
         this.select(node);
       };
 
-      $scope.itemCheck = function(node) {
+      $scope.itemCheck = function (node) {
         $scope.$emit("sn.controls.tree:itemChecked", node, 'itemCheck');
       };
 
-      $scope.$on("sn.controls.tree:itemChecked", function(e, item) {
+      $scope.$on("sn.controls.tree:itemChecked", function (e, item) {
         item && checkChildren(item);
 
         if ($scope.treeData) {
-          $scope.treeData.forEach(function(node) {
+          $scope.treeData.forEach(function (node) {
             if (node.children) {
-              var checkedLength = node.children.filter(function(it) {
+              var checkedLength = node.children.filter(function (it) {
                 return it.checked;
               }).length;
 
@@ -1739,7 +1739,7 @@ angular.module("sn.controls").directive('snTree', function($compile) {
 
       function checkChildren(node) {
         if (node.children) {
-          node.children.forEach(function(it) {
+          node.children.forEach(function (it) {
             it.checked = node.checked;
 
             checkChildren(it);
@@ -1747,7 +1747,7 @@ angular.module("sn.controls").directive('snTree', function($compile) {
         }
       }
 
-      $scope.iconClick = function(node) {
+      $scope.iconClick = function (node) {
         node.$collapsed = !node.$collapsed;
 
         var evt = {
@@ -1757,7 +1757,7 @@ angular.module("sn.controls").directive('snTree', function($compile) {
         root.$emit("sn.controls.tree:nodeIconClicked", evt);
       };
     },
-    link: function(scope, element, attr) {
+    link: function (scope, element, attr) {
       scope.treeId = attr["treeId"];
 
       if (!scope.$parent.$isTreeNode) {
@@ -1771,19 +1771,19 @@ angular.module("sn.controls").directive('snTree', function($compile) {
   };
 });
 
-angular.module("sn.controls").service("LazyLoader", ["$q", function($q) {
+angular.module("sn.controls").service("LazyLoader", ["$q", function ($q) {
   var createdScripts = {}; //是否已创建script标签
   var pendingScripts = {}; //哪些处于加载过程中
 
   var loader = {
-    load: function(url) {
+    load: function (url) {
       var deferred = $q.defer();
 
       if (!createdScripts[url]) {
         var script = document.createElement('script');
         script.src = encodeURI(url);
 
-        script.onload = function() {
+        script.onload = function () {
           if (pendingScripts[url]) {
             for (var i = 0; i < pendingScripts[url].length; i++) {
               pendingScripts[url][i].deferred && pendingScripts[url][i].deferred.resolve();
@@ -1794,14 +1794,15 @@ angular.module("sn.controls").service("LazyLoader", ["$q", function($q) {
         };
 
         createdScripts[url] = script;
-        document.body.appendChild(script);
-
+        
         if (!pendingScripts[url]) {
           pendingScripts[url] = [];
         }
         pendingScripts[url].push({
           deferred: deferred
         });
+        
+        document.body.appendChild(script);
       } else if (pendingScripts[url]) {
         pendingScripts[url].push({
           deferred: deferred
@@ -1812,7 +1813,7 @@ angular.module("sn.controls").service("LazyLoader", ["$q", function($q) {
 
       return deferred.promise;
     },
-    loadArr: function(arr) {
+    loadArr: function (arr) {
       var deferred = $q.defer();
       var counter = 0;
 
@@ -1828,7 +1829,7 @@ angular.module("sn.controls").service("LazyLoader", ["$q", function($q) {
           var script = document.createElement('script');
           script.src = encodeURI(url);
 
-          script.onload = function() {
+          script.onload = function () {
             //这段是唯一需要关注pendingScripts的，因为你是顺带帮别人加载了代码，对你自己并无本质帮助
             if (pendingScripts[url]) {
               for (var i = 0; i < pendingScripts[url].length; i++) {
@@ -1843,7 +1844,6 @@ angular.module("sn.controls").service("LazyLoader", ["$q", function($q) {
           };
 
           createdScripts[url] = script;
-          document.body.appendChild(script);
 
           if (!pendingScripts[url]) {
             pendingScripts[url] = [];
@@ -1851,6 +1851,8 @@ angular.module("sn.controls").service("LazyLoader", ["$q", function($q) {
           pendingScripts[url].push({
             callback: checkAll
           });
+          
+          document.body.appendChild(script);
         } else if (pendingScripts[url]) {
           //这里很麻烦啊，要是你想加载的js被别人顺带加载了，怎么办？
           pendingScripts[url].push({
@@ -1863,7 +1865,7 @@ angular.module("sn.controls").service("LazyLoader", ["$q", function($q) {
 
       return deferred.promise;
     },
-    loadQueue: function(arr) {
+    loadQueue: function (arr) {
       var deferred = $q.defer();
 
       loadStep(0);
@@ -1872,7 +1874,7 @@ angular.module("sn.controls").service("LazyLoader", ["$q", function($q) {
         if (index == arr.length) {
           deferred.resolve();
         } else {
-          loader.load(arr[index]).then(function() {
+          loader.load(arr[index]).then(function () {
             loadStep(index + 1);
           });
         }
@@ -1885,18 +1887,18 @@ angular.module("sn.controls").service("LazyLoader", ["$q", function($q) {
   return loader;
 }]);
 
-angular.module("sn.controls").service("mockService", ["$q", function($q) {
+angular.module("sn.controls").service("mockService", ["$q", function ($q) {
   return {
-    service: function(mockData) {
+    service: function (mockData) {
       var defer = $q.defer();
       defer.resolve(mockData);
       return defer.promise;
     },
     //handle : resolve, reject
-    delay: function(mockData, delay, handle) {
+    delay: function (mockData, delay, handle) {
       var defer = $q.defer();
       handle = handle || 'resolve';
-      setTimeout(function() {
+      setTimeout(function () {
         defer[handle](mockData);
       }, delay);
       return defer.promise;
@@ -1907,12 +1909,12 @@ angular.module("sn.controls").service("mockService", ["$q", function($q) {
 }]);
 
 
-angular.module("sn.controls").directive("chart", ["LazyLoader", function(LazyLoader) {
+angular.module("sn.controls").directive("chart", ["LazyLoader", function (LazyLoader) {
   return {
     restrict: "A",
-    link: function(scope, element, attrs) {
+    link: function (scope, element, attrs) {
       LazyLoader.load("libs/echarts/echarts-plain.js")
-        .then(function() {
+        .then(function () {
           var myChart = echarts.init(element[0]);
           window.onresize = myChart.resize;
 
@@ -1922,7 +1924,7 @@ angular.module("sn.controls").directive("chart", ["LazyLoader", function(LazyLoa
             console.log(ex);
           }
 
-          attrs.$observe("chart", function(option) {
+          attrs.$observe("chart", function (option) {
             try {
               myChart.setOption(JSON.parse(option), true);
             } catch (ex) {
@@ -1948,14 +1950,14 @@ angular.module("sn.controls").directive("chart", ["LazyLoader", function(LazyLoa
  }]);*/
 
 
-angular.module("sn.controls").directive("ueditor", ["LazyLoader", "$timeout", function(LazyLoader, $timeout) {
+angular.module("sn.controls").directive("ueditor", ["LazyLoader", "$timeout", function (LazyLoader, $timeout) {
   return {
     restrict: "A",
     scope: {
       content: "=ngModel",
       zIndex: '@zIndex'
     },
-    link: function(scope, element, attrs) {
+    link: function (scope, element, attrs) {
       var ue,
         elementId = element[0].id;
       if (!elementId) {
@@ -1963,46 +1965,46 @@ angular.module("sn.controls").directive("ueditor", ["LazyLoader", "$timeout", fu
       }
 
       LazyLoader.loadQueue(["libs/ueditor/ueditor.config.js", "libs/ueditor/ueditor.all.min.js", "libs/ueditor/lang/zh-cn/zh-cn.js"])
-        .then(function() {
+        .then(function () {
           var options = {},
             lastContent,
-			 zIndex = scope.zIndex;
+            zIndex = scope.zIndex;
 
-          if(zIndex||(!isNaN(zIndex)&&angular.isNumber(zIndex))){
-			  options.zIndex = Number(zIndex);
-		  }
+          if (zIndex || (!isNaN(zIndex) && angular.isNumber(zIndex))) {
+            options.zIndex = Number(zIndex);
+          }
 
           ue = UE.getEditor(elementId, options);
           lastContent = scope.content;
 
-          ue.ready(function() {
+          ue.ready(function () {
             if (scope.content) {
               ue.setContent(scope.content);
             }
 
-            scope.$watch("content", function(newVal) {
+            scope.$watch("content", function (newVal) {
               if (newVal && newVal != lastContent) {
                 ue.setContent(newVal);
               }
             });
 
-            ue.addListener("contentChange", function(editor) {
+            ue.addListener("contentChange", function (editor) {
               lastContent = scope.content = ue.getContent();
 
-              $timeout(function() {
+              $timeout(function () {
                 scope.$apply();
               }, 0);
             });
           });
         });
 
-      scope.$on("$destroy", function() {
+      scope.$on("$destroy", function () {
         console.log("ueditor destroy:" + element[0].id);
 
         if (ue) {
           try {
             ue.destroy();
-          } catch (ex) {}
+          } catch (ex) { }
         }
       });
     }
@@ -2012,11 +2014,11 @@ angular.module("sn.controls").directive("ueditor", ["LazyLoader", "$timeout", fu
 
 
 angular.module("sn.controls").directive("placeholder", ["$document",
-  function($document) {
+  function ($document) {
     var needsShimByNodeName = {};
 
     // Determine if we need to perform the visual shimming
-    angular.forEach(['INPUT', 'TEXTAREA'], function(val) {
+    angular.forEach(['INPUT', 'TEXTAREA'], function (val) {
       needsShimByNodeName[val] = $document[0].createElement(val)["placeholder"] === undefined;
     });
 
@@ -2032,7 +2034,7 @@ angular.module("sn.controls").directive("placeholder", ["$document",
 
     return {
       restrict: "A",
-      link: function($scope, $element, $attributes, $controller) {
+      link: function ($scope, $element, $attributes, $controller) {
         var currentValue, text;
 
         text = $attributes["placeholder"];
@@ -2040,7 +2042,7 @@ angular.module("sn.controls").directive("placeholder", ["$document",
         if ($attributes.ngModel) {
           // This does the class toggling depending on if there
           // is a value or not.
-          $scope.$watch($attributes.ngModel, function(newVal) {
+          $scope.$watch($attributes.ngModel, function (newVal) {
             currentValue = newVal || "";
 
             if (!currentValue) {
@@ -2057,13 +2059,13 @@ angular.module("sn.controls").directive("placeholder", ["$document",
           }
 
           // These bound events handle user interaction
-          $element.bind("focus", function() {
+          $element.bind("focus", function () {
             if (currentValue === "") {
               // Remove placeholder text
               $element.val("");
             }
           });
-          $element.bind("blur", function() {
+          $element.bind("blur", function () {
             if ($element.val() === "") {
               // Add placeholder text
               $element.val(text);
@@ -2072,7 +2074,7 @@ angular.module("sn.controls").directive("placeholder", ["$document",
 
           // This determines if we show placeholder text or not
           // when there was a change detected on scope.
-          $controller.$formatters.unshift(function(val) {
+          $controller.$formatters.unshift(function (val) {
             /* Do nothing on password fields, as they would
              * be filled with asterisks.  Issue #2.
              */
@@ -2089,14 +2091,14 @@ angular.module("sn.controls").directive("placeholder", ["$document",
   }
 ]);
 
-angular.module("sn.controls").directive("scrollIntoView", [function() {
+angular.module("sn.controls").directive("scrollIntoView", [function () {
   return {
     scope: {
       scrollIntoView: "=scrollIntoView"
     },
     restrict: "A",
-    link: function(scope, element, attrs) {
-      scope.$watch("scrollIntoView", function(value) {
+    link: function (scope, element, attrs) {
+      scope.$watch("scrollIntoView", function (value) {
         if (value)
           element[0].scrollIntoView();
       });
@@ -2105,14 +2107,14 @@ angular.module("sn.controls").directive("scrollIntoView", [function() {
 }]);
 
 
-angular.module("sn.controls").directive("autoFocus", [function() {
+angular.module("sn.controls").directive("autoFocus", [function () {
   return {
     scope: {
       autoFocus: "=autoFocus"
     },
     restrict: "A",
-    link: function(scope, element, attrs) {
-      scope.$watch("autoFocus", function(value) {
+    link: function (scope, element, attrs) {
+      scope.$watch("autoFocus", function (value) {
         if (value)
           element[0].focus();
       });
@@ -2120,14 +2122,14 @@ angular.module("sn.controls").directive("autoFocus", [function() {
   };
 }]);
 
-angular.module("sn.controls").directive("limitDecimal", [function() {
+angular.module("sn.controls").directive("limitDecimal", [function () {
   return {
     scope: {
       inputValue: "=ngModel"
     },
     restrict: "A",
-    link: function(scope, element, attrs) {
-      scope.$watch("inputValue", function(nv, ov) {
+    link: function (scope, element, attrs) {
+      scope.$watch("inputValue", function (nv, ov) {
         if (!!nv && nv.indexOf('.') != -1) {
           scope.inputValue = nv.substr(0, nv.indexOf('.') + 3);
         }
@@ -2136,20 +2138,20 @@ angular.module("sn.controls").directive("limitDecimal", [function() {
   };
 }]);
 
-angular.module("sn.controls").directive("decimalFocus", [function() {
+angular.module("sn.controls").directive("decimalFocus", [function () {
   return {
     scope: {
       inputValue: "=ngModel",
       decimalFocus: '=decimalFocus'
     },
     restrict: "A",
-    link: function(scope, element, attrs) {
-      scope.$watch("inputValue", function(nv) {
+    link: function (scope, element, attrs) {
+      scope.$watch("inputValue", function (nv) {
         if (!!nv && nv.indexOf('.') != -1) {
           scope.inputValue = nv.substr(0, nv.indexOf('.') + 3);
         }
       });
-      scope.$watch("decimalFocus", function(nv) {
+      scope.$watch("decimalFocus", function (nv) {
         if (nv) {
           element[0].focus();
         }
@@ -2158,14 +2160,14 @@ angular.module("sn.controls").directive("decimalFocus", [function() {
   };
 }]);
 
-angular.module("sn.controls").directive("limitArea", [function() {
+angular.module("sn.controls").directive("limitArea", [function () {
   return {
     scope: {
       totalCount: '@limitArea',
       contentText: '=ngModel'
     },
     restrict: "A",
-    link: function(scope, ele, attrs) {
+    link: function (scope, ele, attrs) {
 
       scope.contentText = scope.contentText || '';
       scope.currentCount = scope.contentText.length || 0;
@@ -2177,7 +2179,7 @@ angular.module("sn.controls").directive("limitArea", [function() {
       }
       createSpan();
 
-      scope.$watch('contentText', function(newVal, oldVal) {
+      scope.$watch('contentText', function (newVal, oldVal) {
         if (!!newVal) {
           scope.currentCount = newVal.length;
           if (scope.currentCount >= scope.totalCount) {
@@ -2195,7 +2197,7 @@ angular.module("sn.controls").directive("limitArea", [function() {
 }]);
 
 
-angular.module('sn.controls').service('envService', [function() {
+angular.module('sn.controls').service('envService', [function () {
   var hostName = location.hostname,
     regs = [
       /^\w*(my)\.cnsuning.com$/,
@@ -2203,7 +2205,7 @@ angular.module('sn.controls').service('envService', [function() {
       /^\w*(pre)\.cnsuning.com$/
     ];
   return {
-    get: function() {
+    get: function () {
       for (var i = 0, len = regs.length; i < len; i++) {
         if (regs[i].test(hostName)) {
 
@@ -2215,14 +2217,14 @@ angular.module('sn.controls').service('envService', [function() {
   }
 }]);
 
-angular.module('sn.controls').factory('DataCache', ['$cacheFactory', function($cacheFactory) {
+angular.module('sn.controls').factory('DataCache', ['$cacheFactory', function ($cacheFactory) {
   return $cacheFactory('DataCache');
 }]);
 
-angular.module('sn.controls').directive('contentWrapperMinHeight', [function() {
+angular.module('sn.controls').directive('contentWrapperMinHeight', [function () {
   return {
     restrict: 'A',
-    link: function(scope, element) {
+    link: function (scope, element) {
       if ($.AdminLTE) {
         $.AdminLTE.layout.activate();
       }
@@ -2230,22 +2232,22 @@ angular.module('sn.controls').directive('contentWrapperMinHeight', [function() {
   };
 }]);
 
-angular.module('sn.controls').factory('GrantedService', ['UserService', function(UserService) {
+angular.module('sn.controls').factory('GrantedService', ['UserService', function (UserService) {
   'use strict';
 
   return {
-    check: function(roleStr) {
+    check: function (roleStr) {
       roleStr = roleStr.replace(/,/g, '').trim();
       if (roleStr === '') {
         return false;
       }
       return true;
     },
-    handle: function(scope, element, success, error) {
-      return UserService.getUserAllRoles(success, error).then(function(data) {
+    handle: function (scope, element, success, error) {
+      return UserService.getUserAllRoles(success, error).then(function (data) {
         if (data.done && data.value) {
-//          element.show();
-            scope['GrantedElementisShow'] = true;
+          //          element.show();
+          scope['GrantedElementisShow'] = true;
         } else {
           element.remove();
         }
@@ -2255,11 +2257,11 @@ angular.module('sn.controls').factory('GrantedService', ['UserService', function
 }]);
 
 //用户需包含所有角色
-angular.module('sn.controls').directive('ifAllGranted', ['GrantedService', function(GrantedService) {
+angular.module('sn.controls').directive('ifAllGranted', ['GrantedService', function (GrantedService) {
   return {
     restrict: 'A',
     priority: 10,
-    link: function(scope, element, attrs) {
+    link: function (scope, element, attrs) {
       var allGranted = attrs['ifAllGranted'] || '',
         grants;
 
@@ -2270,9 +2272,9 @@ angular.module('sn.controls').directive('ifAllGranted', ['GrantedService', funct
       scope['GrantedElementisShow'] = false;
       grants = allGranted.split(',');
 
-      GrantedService.handle(scope, element, function(data) {
+      GrantedService.handle(scope, element, function (data) {
         var roles = data || {},
-          allFlag = grants.every(function(v) {
+          allFlag = grants.every(function (v) {
             v = v.trim();
             return v in roles;
           });
@@ -2286,25 +2288,25 @@ angular.module('sn.controls').directive('ifAllGranted', ['GrantedService', funct
 }]);
 
 //用户需含有任意角色
-angular.module('sn.controls').directive('ifAnyGranted', ['GrantedService', function(GrantedService) {
+angular.module('sn.controls').directive('ifAnyGranted', ['GrantedService', function (GrantedService) {
   return {
     restrict: 'A',
     priority: 20,
-    link: function(scope, element, attrs) {
+    link: function (scope, element, attrs) {
       var anyGranted = attrs['ifAnyGranted'] || '',
         grants;
 
       if (!GrantedService.check(anyGranted)) {
         return;
       }
-      
+
       scope['GrantedElementisShow'] = false;
-      
+
       grants = anyGranted.split(',');
 
-      GrantedService.handle(scope, element, function(data) {
+      GrantedService.handle(scope, element, function (data) {
         var roles = data || {},
-          anyFlag = grants.some(function(v) {
+          anyFlag = grants.some(function (v) {
             v = v.trim();
             return v in roles;
           });
@@ -2318,11 +2320,11 @@ angular.module('sn.controls').directive('ifAnyGranted', ['GrantedService', funct
 }]);
 
 //用户不包含属性值中任一角色
-angular.module('sn.controls').directive('ifNotGranted', ['GrantedService', function(GrantedService) {
+angular.module('sn.controls').directive('ifNotGranted', ['GrantedService', function (GrantedService) {
   return {
     restrict: 'A',
     priority: 30,
-    link: function(scope, element, attrs) {
+    link: function (scope, element, attrs) {
       var notGranted = attrs['ifNotGranted'] || '',
         grants;
 
@@ -2333,9 +2335,9 @@ angular.module('sn.controls').directive('ifNotGranted', ['GrantedService', funct
       scope['GrantedElementisShow'] = false;
       grants = notGranted.split(',');
 
-      GrantedService.handle(scope, element, function(data) {
+      GrantedService.handle(scope, element, function (data) {
         var roles = data || {},
-          anyFlag = grants.some(function(v) {
+          anyFlag = grants.some(function (v) {
             v = v.trim();
             return v in roles;
           });
@@ -2346,4 +2348,81 @@ angular.module('sn.controls').directive('ifNotGranted', ['GrantedService', funct
       });
     }
   };
+}]);
+
+angular.module('sn.controls').directive('scrollBar', ['LazyLoader', '$q',  function (LazyLoader, $q) {
+  var cssCache= {};
+  return {
+    restrict: 'A',
+    scope: {
+      marginTopOffset : '@marginTopOffset',
+      suppressScrollX: '@suppressScrollX',
+      suppressScrollY: '@suppressScrollY'
+    },
+    link: function (scope, element, attrs) {
+      var cssUrl = 'styles/scrollbar/perfect-scrollbar.min.css',
+          scriptUrl = 'libs/scrollbar/perfect-scrollbar.js',
+          marginTopOffset  = scope.marginTopOffset||0,
+          seed = 10,
+          elem = element[0];
+       
+      if (!elem) {
+        return;
+      }
+    
+      function getElementHeight(){
+        var defer = $q.defer();
+        
+        function calcHeight(){
+          var windowClientHeight = document.documentElement.clientHeight,
+             h = windowClientHeight - marginTopOffset - seed;
+             
+          element.css('height', h+'px');
+          defer.resolve('calc height success');
+        }
+        
+        calcHeight();
+        return defer.promise;
+      }
+      
+      function createCssLink(url) {
+        
+        if(cssCache[url]){
+          return $q.when('css is loaded return cache');
+        }
+        
+        var defer = $q.defer(),
+          head = document.querySelector('head'),
+          link = document.createElement('link');
+        
+
+        link.rel = 'stylesheet';
+        link.href = url;
+        link.onload = function () {
+          defer.resolve('css is loaded');
+          
+        };
+        link.onerror = function(){
+          defer.reject('css is loaded error');
+        };
+        
+        head.appendChild(link);
+        cssCache[url] = true;
+        return defer.promise;
+      }
+
+      $q.all([getElementHeight(),createCssLink(cssUrl), LazyLoader.load(scriptUrl)]).then(function(){
+         /*global Ps */
+         Ps.initialize(elem,{
+           
+         });
+      });
+      
+      angular.element(window).on('resize', function(){
+        getElementHeight().then(function(){
+           Ps.update(elem);
+        });
+      });
+    }
+  }
 }]);

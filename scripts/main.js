@@ -1,10 +1,10 @@
-var app = angular.module('app', ['ngSanitize', 'ui.router', 'angularFileUpload','sn.controls', 'sn.error']);
+var app = angular.module('app', ['ngSanitize', 'ui.router', 'angularFileUpload', 'sn.controls', 'sn.error']);
 
 app.constant('baseUrl', '');
 
 app.constant('Utils', {})
-  .run(['$rootScope', 'Utils', 'envService',
-    function($rootScope, Utils, envService) {
+  .run(['$rootScope', 'Utils', 'envService','DialogService',
+    function($rootScope, Utils, envService,DialogService) {
       'use strict';
       //获取当前环境 dev, sit, pre, prd
       Utils.settings = {};
@@ -17,7 +17,18 @@ app.constant('Utils', {})
 
       Utils.MockRoles = [];
 
+      //切换页面后scrollTop置为0,滚动条回到顶部
+      //关闭dialog框
+      //广播跳转状态
       $rootScope.$on('$stateChangeSuccess', function(event, toState) {
+
+        setTimeout(function() {
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+        }, 0);
+
+        DialogService.dismissAll();
+
         $rootScope.$broadcast('router:state:change', toState);
       });
     }
@@ -44,7 +55,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
         url: '/btnrole',
         templateUrl: 'partials/role/btn-role.html',
         controller: 'BtnRoleCtrl'
-      }) 
+      })
       .state('BtnRoleExp', {
         url: '/btnroleexp',
         templateUrl: 'partials/role/btn-role-exp.html',
@@ -56,24 +67,30 @@ app.config(['$stateProvider', '$urlRouterProvider',
         templateUrl: 'partials/tree/checkbox-tree.html',
         controller: 'CheckBoxTreeCtrl'
       })
-      .state('ImageUpload',{
+      .state('ImageUpload', {
         parent: 'Console',
         url: '/imageupload',
         templateUrl: 'partials/uploader/uploader.html',
         controller: 'ImageUploadCtrl'
       })
-	  .state('ImageUpload2',{
+      .state('ImageUpload2', {
         parent: 'Console',
         url: '/imageupload2',
         templateUrl: 'partials/uploader/uploader2.html',
         controller: 'ImageUpload2Ctrl'
       })
-	  .state('Ueditor', {
-		parent: 'Console',
-		url: '/ueditor',
-		templateUrl: 'partials/ueditor/ueditor.html',
-		controller: 'UeditorCtrl'
-	   });
+      .state('Ueditor', {
+        parent: 'Console',
+        url: '/ueditor',
+        templateUrl: 'partials/ueditor/ueditor.html',
+        controller: 'UeditorCtrl'
+      })
+      .state('ScrollBar', {
+        parent: 'Console',
+        url: '/scrollbar',
+        templateUrl: 'partials/scrollbar/scrollbar.html',
+        controller: 'ScrollBarCtrl'
+      });
   }
 ]);
 
