@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--建议将该页面内容放入ftl或jsp,通过拦截向后台请求该页面的请求,来实现页面权限控制-->
+<head>
+  <meta charset="UTF-8">
+  <title>风控平台</title>
+  <link rel="stylesheet" href="styles/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles/adminlte/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="styles/adminlte/css/skins/skin-blue.min.css">
+  <link rel="stylesheet" href="styles/fontawesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="styles/controls.css">
+  <link rel="stylesheet" href="styles/imageUpload.css">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body ng-app="app">
+
+  <div class="wrapper" ng-viewport></div>
+  
+  <!--components template 设置对应末班,优先级比html文件高-->
+  <!--<script type="text/ng-template" id="./components/settings/settings.html">
+   this is ng-template <br> {{settings.name}}
+  </script>-->
+
+  <script id="alertTpl" type="text/html">
+    <div class="modal fade in">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title">{{title}}</h4>
+          </div>
+          <div class="modal-body">
+            <div class="alert-content">
+              <span>{{content}}</span>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" ng-show="ok" ng-click="ok()">确定</button>
+            <button type="button" class="btn btn-primary btn-reverse" ng-show="cancel" ng-click="cancel()">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script id="treeTpl" type="text/html">
+    <ul class="sn-tree">
+      <li ng-repeat="node in treeData">
+        <i ng-class="type(node)" ng-click="iconClick(node)"></i>
+        <span ng-click="itemClick(node)" ng-class="{true:'selected', false:''}[node.$selected]">
+                {{ node.name }}
+            </span>
+        <sn-tree tree-data="node.children" ng-hide="node.$collapsed"></sn-tree>
+      </li>
+    </ul>
+  </script>
+
+  <script id="checkboxTreeTpl" type="text/html">
+    <ul class="sn-tree" class="dropdown-menu">
+      <li ng-repeat="node in treeData">
+        <i ng-class="state(node)" ng-click="iconClick(node)"></i>
+        <input type="checkbox" ng-model="node.checked" ng-click="itemCheck(node)" ng-if="node.type !== 0" />
+        <i ng-class="type(node)" ng-click="itemClick(node)"></i>
+        <span ng-click="iconClick(node)" ng-class="{true:'selected', false:''}[node.$selected]" title="{{node.des}}">
+                  {{ node.name }}
+              </span>
+        <sn-tree tree-data="node.children" ng-hide="!node.$collapsed"></sn-tree>
+      </li>
+    </ul>
+  </script>
+  
+  <script src="libs/jquery/jquery.js"></script>
+  <script src="node_modules/angular/angular.js"></script>
+  <script src="node_modules/angular-sanitize/angular-sanitize.min.js"></script>
+  <script src="node_modules/angular-new-router/dist/router.es5.js"></script>
+
+  <script src="scripts/newrouter-main.js"></script>
+  
+   <script src="components/console/console.js"></script>
+   <script src="components/settings/settings.js"></script>
+   <script src="components/welcome/welcome.js"></script>
+</body>
+
+</html>
