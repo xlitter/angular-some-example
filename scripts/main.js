@@ -90,6 +90,11 @@ app.config(['$stateProvider', '$urlRouterProvider',
         url: '/scrollbar',
         templateUrl: 'partials/scrollbar/scrollbar.html',
         controller: 'ScrollBarCtrl'
+      }).state('Echarts', {
+        parent:'Console',
+        url: '/echarts',
+        templateUrl: 'partials/echarts/echarts.html',
+        controller: 'EchartsCtrl'
       });
   }
 ]);

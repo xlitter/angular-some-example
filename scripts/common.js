@@ -1912,10 +1912,15 @@ angular.module("sn.controls").service("mockService", ["$q", function ($q) {
 angular.module("sn.controls").directive("chart", ["LazyLoader", function (LazyLoader) {
   return {
     restrict: "A",
+    scope: {
+      dbClick: '=',
+      pieSelected : '='
+    },
     link: function (scope, element, attrs) {
-      LazyLoader.load("libs/echarts/echarts-plain.js")
+      LazyLoader.load("libs/echarts/source/echarts-all.js")
         .then(function () {
-          var myChart = echarts.init(element[0]);
+          var myChart = echarts.init(element[0]),
+          config = echarts.config;
           window.onresize = myChart.resize;
 
           try {
@@ -1932,6 +1937,19 @@ angular.module("sn.controls").directive("chart", ["LazyLoader", function (LazyLo
             }
 
           }, true);
+          
+          if(angular.isFunction(scope.dbClick)){
+            myChart.on(config.EVENT.DBLCLICK, function(){
+            scope.dbClick.apply(this, arguments);
+          });
+          }
+          
+          if(angular.isFunction(scope.pieSelected)){
+            myChart.on(config.EVENT.PIE_SELECTED, function(){
+            scope.pieSelected.apply(this, arguments);
+          });
+          }
+          
         });
     }
   };

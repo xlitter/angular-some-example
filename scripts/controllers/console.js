@@ -70,6 +70,17 @@ angular.module('app').controller('ConsoleCtrl', ['$rootScope', '$scope', '$state
           o: 0
         }],
         o: 0
+      },{
+        name: 'Echarts',
+        clazz: 'fa fa-circle-o',
+        children: [{
+          name: 'Echarts',
+          clazz: 'fa fa-circle-o',
+          state: 'Echarts',
+          relation: [],
+          o: 0
+        }],
+        o: 0
       }];
 
     /////////////functions///////////////
