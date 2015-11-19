@@ -28,8 +28,15 @@ angular.module('app').controller('ImageUpload2Ctrl', function($scope, FileUpload
           return {
             name: 'limitFilter',
             msg: '最多上传' + limit + '个附件',
-            fn: function() {
-              var items = uploadItems.filter(function(v) {
+            fn: function(fileLikeObject, fileItem) {
+              var items,
+              idx = fileItem.idx;
+              
+              if(angular.isNumber(idx)&&!angular.isUndefined(uploadItems[idx])){
+                uploadItems[idx] = undefined;
+              }
+              
+              items = uploadItems.filter(function(v) {
                 return typeof v !== 'undefined';
               });
               return items.length < limit;
