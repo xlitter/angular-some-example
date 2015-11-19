@@ -224,21 +224,98 @@ angular.module('app').controller('EchartsCtrl', function ($scope) {
 				]
 			}
     ]
-	}
+	};
 
+	vm.options_line2 = {
+		title: {
+			text: '实时监控'
+		},
+		tooltip: {
+			trigger: 'axis'
+		},
+		legend: {
+			data: ['A流量', '拦截量']
+		},
+		toolbox: {
+			show: false,
+			feature: {
+				mark: { show: false },
+				dataView: { show: false, readOnly: false },
+				magicType: { show: true, type: ['line', 'bar'] },
+				restore: { show: false },
+				saveAsImage: { show: true }
+			}
+		},
+		// calculable : false,
+		xAxis: [
+			{
+				type: 'category',
+				data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+
+
+			}
+		],
+		yAxis: [
+			{
+				type: 'value',
+				name: '流量 / 万',
+				axisLabel: {
+					formatter: function (value) {
+						return value / 100;
+					}
+				}
+			}
+		],
+		series: [
+			{
+				name: 'A流量',
+				type: 'line',
+				smooth: true,
+				itemStyle: { normal: { color: '#48c2d5'/*, areaStyle: {type: 'default'}*/ } },
+				data: [110, 110, 150, 130, 120, 130, 100]
+			},
+			{
+				name: 'A拦截量',
+				type: 'line',
+				smooth: true,
+				itemStyle: { normal: { color: '#9ea8e2'/*, areaStyle: {type: 'default'}*/ } },
+				data: [100, -200, 200, 500, 300, 200, 0]
+			},
+			{
+				name: 'B流量',
+				type: 'line',
+				smooth: true,
+				itemStyle: { normal: { color: '#48c2d5'/*, areaStyle: {type: 'default'}*/ } },
+				data: [123, 432, 246, 356, 156, 212, 656]
+
+			},
+			{
+				name: 'B拦截量',
+				type: 'line',
+				smooth: true,
+				itemStyle: { normal: { color: '#9ea8e2'/*, areaStyle: {type: 'default'}*/ } },
+				data: [167, 266, 754, 500, 529, 200, 0]
+			}
+		]
+	};
+
+  vm.lineClick = function(){
+		console.log('lineClick', arguments);
+	};
 	vm.dbClick = function () {
 		console.log('arguments', arguments);
-		alert('dbClick');
+		// alert('dbClick');
+		console.log('line2',vm.options_line2);
 	};
-	
-	vm.pieSelected = function(param, chart){
+
+	vm.pieSelected = function (param, chart) {
 		console.log('pieClick');
 		console.log(arguments);
-		var selected = param.selected,options;
-		if(selected[1].indexOf(true) > -1){
-			 options = chart.getOption();
-			 options.series[0].data= [{name: param.target, value: Math.floor(Math.random()*100)}];
-			 chart.setSeries(options.series, true);
+		var selected = param.selected, options;
+		if (selected[1].indexOf(true) > -1) {
+			options = chart.getOption();
+			options.series[0].data = [{ name: param.target, value: Math.floor(Math.random() * 100) }];
+			chart.setSeries(options.series, true);
 		}
 	};
 

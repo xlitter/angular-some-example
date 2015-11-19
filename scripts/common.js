@@ -1794,14 +1794,14 @@ angular.module("sn.controls").service("LazyLoader", ["$q", function ($q) {
         };
 
         createdScripts[url] = script;
-        
+
         if (!pendingScripts[url]) {
           pendingScripts[url] = [];
         }
         pendingScripts[url].push({
           deferred: deferred
         });
-        
+
         document.body.appendChild(script);
       } else if (pendingScripts[url]) {
         pendingScripts[url].push({
@@ -1851,7 +1851,7 @@ angular.module("sn.controls").service("LazyLoader", ["$q", function ($q) {
           pendingScripts[url].push({
             callback: checkAll
           });
-          
+
           document.body.appendChild(script);
         } else if (pendingScripts[url]) {
           //这里很麻烦啊，要是你想加载的js被别人顺带加载了，怎么办？
@@ -1909,18 +1909,19 @@ angular.module("sn.controls").service("mockService", ["$q", function ($q) {
 }]);
 
 
-angular.module("sn.controls").directive("chart", ["LazyLoader", function (LazyLoader) {
+angular.module("sn.controls").directive("chart", ["LazyLoader", '$parse', function (LazyLoader, $parse) {
   return {
     restrict: "A",
     scope: {
-      dbClick: '=',
-      pieSelected : '='
+      dbClick: '&',
+      click: '=',
+      pieSelected: '='
     },
     link: function (scope, element, attrs) {
       LazyLoader.load("libs/echarts/source/echarts-all.js")
         .then(function () {
           var myChart = echarts.init(element[0]),
-          config = echarts.config;
+            config = echarts.config;
           window.onresize = myChart.resize;
 
           try {
@@ -1938,18 +1939,27 @@ angular.module("sn.controls").directive("chart", ["LazyLoader", function (LazyLo
 
           }, true);
           
-          if(angular.isFunction(scope.dbClick)){
-            myChart.on(config.EVENT.DBLCLICK, function(){
-            scope.dbClick.apply(this, arguments);
-          });
+          if (angular.isFunction(scope.click)) {
+            myChart.on(config.EVENT.CLICK, function () {
+              scope.click.apply(this, arguments);
+            });
           }
           
-          if(angular.isFunction(scope.pieSelected)){
-            myChart.on(config.EVENT.PIE_SELECTED, function(){
-            scope.pieSelected.apply(this, arguments);
-          });
+          //使用'&'时,可使用如下方式传递arguments ,html中 dbClick='dbClick'没有小括号
+          //否则只能使用指定参数的方式传递对应的值{message : value}
+          if (angular.isFunction(scope.dbClick())) {
+            myChart.on(config.EVENT.DBLCLICK, function () {
+
+              scope.dbClick().apply(this, arguments);
+            });
           }
-          
+
+          if (angular.isFunction(scope.pieSelected)) {
+            myChart.on(config.EVENT.PIE_SELECTED, function () {
+              scope.pieSelected.apply(this, arguments);
+            });
+          }
+
         });
     }
   };
@@ -2368,77 +2378,77 @@ angular.module('sn.controls').directive('ifNotGranted', ['GrantedService', funct
   };
 }]);
 
-angular.module('sn.controls').directive('scrollBar', ['LazyLoader', '$q',  function (LazyLoader, $q) {
-  var cssCache= {};
+angular.module('sn.controls').directive('scrollBar', ['LazyLoader', '$q', function (LazyLoader, $q) {
+  var cssCache = {};
   return {
     restrict: 'A',
     scope: {
-      marginTopOffset : '@marginTopOffset',
+      marginTopOffset: '@marginTopOffset',
       suppressScrollX: '@suppressScrollX',
       suppressScrollY: '@suppressScrollY'
     },
     link: function (scope, element, attrs) {
       var cssUrl = 'styles/scrollbar/perfect-scrollbar.min.css',
-          scriptUrl = 'libs/scrollbar/perfect-scrollbar.js',
-          marginTopOffset  = scope.marginTopOffset||0,
-          seed = 10,
-          elem = element[0];
-       
+        scriptUrl = 'libs/scrollbar/perfect-scrollbar.js',
+        marginTopOffset = scope.marginTopOffset || 0,
+        seed = 10,
+        elem = element[0];
+
       if (!elem) {
         return;
       }
-    
-      function getElementHeight(){
+
+      function getElementHeight() {
         var defer = $q.defer();
-        
-        function calcHeight(){
+
+        function calcHeight() {
           var windowClientHeight = document.documentElement.clientHeight,
-             h = windowClientHeight - marginTopOffset - seed;
-             
-          element.css('height', h+'px');
+            h = windowClientHeight - marginTopOffset - seed;
+
+          element.css('height', h + 'px');
           defer.resolve('calc height success');
         }
-        
+
         calcHeight();
         return defer.promise;
       }
-      
+
       function createCssLink(url) {
-        
-        if(cssCache[url]){
+
+        if (cssCache[url]) {
           return $q.when('css is loaded return cache');
         }
-        
+
         var defer = $q.defer(),
           head = document.querySelector('head'),
           link = document.createElement('link');
-        
+
 
         link.rel = 'stylesheet';
         link.href = url;
         link.onload = function () {
           defer.resolve('css is loaded');
-          
+
         };
-        link.onerror = function(){
+        link.onerror = function () {
           defer.reject('css is loaded error');
         };
-        
+
         head.appendChild(link);
         cssCache[url] = true;
         return defer.promise;
       }
 
-      $q.all([getElementHeight(),createCssLink(cssUrl), LazyLoader.load(scriptUrl)]).then(function(){
-         /*global Ps */
-         Ps.initialize(elem,{
-           
-         });
+      $q.all([getElementHeight(), createCssLink(cssUrl), LazyLoader.load(scriptUrl)]).then(function () {
+        /*global Ps */
+        Ps.initialize(elem, {
+
+        });
       });
-      
-      angular.element(window).on('resize', function(){
-        getElementHeight().then(function(){
-           Ps.update(elem);
+
+      angular.element(window).on('resize', function () {
+        getElementHeight().then(function () {
+          Ps.update(elem);
         });
       });
     }

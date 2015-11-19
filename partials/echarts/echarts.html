@@ -27,23 +27,30 @@
                   <li role="presentation" ng-class="{'active': formData.tap==='3'}" >
                     <a href="javascript:void(0)" ng-click="formData.tap = '3'">Pie</a>
                   </li>
+                   <li role="presentation" ng-class="{'active': formData.tap==='4'}" >
+                    <a href="javascript:void(0)" ng-click="formData.tap = '4'">Line2</a>
+                  </li>
                 </ul>
               </div>
             </div>
             <div class="col-xs-12" >
                <!--line-->
               <div ng-if="formData.tap==='1'">
-                <div  style="height: 500px;" chart="{{options_line}}" db-click="dbClick" ></div>
+                <div  style="height: 500px;" chart="{{options_line}}" db-click="dbClick"></div>
               </div>
 
               <!--bar-->
               <div  >
-                <div  ng-if="formData.tap==='2'" style="width:100%; height: 500px;" chart="{{options_bar}}"></div>
+                <div  ng-if="formData.tap==='2'" style="width:100%; height: 500px;" chart="{{options_bar}}"  click="lineClick"></div>
               </div>
               
               <!--pie-->
               <div  >
                 <div  ng-if="formData.tap==='3'" style="width:100%; height: 500px;" chart="{{options_pie}}" pie-selected="pieSelected"></div>
+              </div>
+              <!--line2-->
+              <div>
+                <div  ng-if="formData.tap==='4'" style="width:100%; height: 500px;" chart="{{options_line2}}" ></div>
               </div>
             </div>
 
