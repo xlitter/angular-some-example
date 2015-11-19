@@ -1,4 +1,4 @@
-angular.module('app').controller('EchartsCtrl', function ($scope ,$timeout) {
+angular.module('app').controller('EchartsCtrl', function ($scope, $timeout) {
 	'use strict';
 
 	var vm = $scope,
@@ -116,7 +116,8 @@ angular.module('app').controller('EchartsCtrl', function ($scope ,$timeout) {
 			{
 				name: '蒸发量',
 				type: 'bar',
-				data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+				// data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+				data: [],
 				markPoint: {
 					data: [
 						{ type: 'max', name: '最大值' },
@@ -132,7 +133,8 @@ angular.module('app').controller('EchartsCtrl', function ($scope ,$timeout) {
 			{
 				name: '降水量',
 				type: 'bar',
-				data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+				// data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+				data: [],
 				markPoint: {
 					data: [
 						{ name: '年最高', value: 182.2, xAxis: 7, yAxis: 183, symbolSize: 18 },
@@ -300,19 +302,19 @@ angular.module('app').controller('EchartsCtrl', function ($scope ,$timeout) {
 
 	function updateOptions() {
 		var options = vm.options_bar;
-			options.series.forEach(function (v) {
-				v.data = function () {
-					var result = [
+		options.series.forEach(function (v) {
+			v.data = function () {
+				var result = [
 
-					], i;
-					for (i = 0; i < 12; i++) {
-						result.push(Math.floor(Math.random() * 500) / 10);
-					}
-					return result;
-				}.call();
-			});
+				], i;
+				for (i = 0; i < 12; i++) {
+					result.push(Math.floor(Math.random() * 700) / 10);
+				}
+				return result;
+			}.call();
+		});
 
-		globals.timedBar = $timeout(updateOptions, 1500);
+		globals.timedBar = $timeout(updateOptions, 5000);
 	}
 
   vm.lineClick = function () {
@@ -338,7 +340,7 @@ angular.module('app').controller('EchartsCtrl', function ($scope ,$timeout) {
 	vm.$watch('formData.tap', function (newVal) {
 		if (newVal) {
 			if (newVal === '2') {
-				updateOptions();
+				globals.timedBar = $timeout(updateOptions, 5000);
 			} else {
 				if (globals.timedBar) {
 					$timeout.cancel(globals.timedBar);
