@@ -340,8 +340,8 @@ angular.module('app').controller('EchartsCtrl', function ($scope ,$timeout) {
 			if (newVal === '2') {
 				updateOptions();
 			} else {
-				if (globals.timeBar) {
-					$timeout.cancel(globals.timeBar);
+				if (globals.timedBar) {
+					$timeout.cancel(globals.timedBar);
 				}
 			}
 		}
