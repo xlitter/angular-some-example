@@ -1,10 +1,11 @@
-angular.module('app').controller('EchartsCtrl', function ($scope) {
+angular.module('app').controller('EchartsCtrl', function ($scope ,$timeout) {
 	'use strict';
 
 	var vm = $scope,
 		  formData = vm.formData = {
 			tap: '1'
-		};
+		},
+		globals = {};
 
 	vm.options_line = {
     title: {
@@ -251,8 +252,6 @@ angular.module('app').controller('EchartsCtrl', function ($scope) {
 			{
 				type: 'category',
 				data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-
-
 			}
 		],
 		yAxis: [
@@ -299,13 +298,30 @@ angular.module('app').controller('EchartsCtrl', function ($scope) {
 		]
 	};
 
-  vm.lineClick = function(){
+	function updateOptions() {
+		var options = vm.options_bar;
+			options.series.forEach(function (v) {
+				v.data = function () {
+					var result = [
+
+					], i;
+					for (i = 0; i < 12; i++) {
+						result.push(Math.floor(Math.random() * 500) / 10);
+					}
+					return result;
+				}.call();
+			});
+
+		globals.timedBar = $timeout(updateOptions, 1500);
+	}
+
+  vm.lineClick = function () {
 		console.log('lineClick', arguments);
 	};
 	vm.dbClick = function () {
 		console.log('arguments', arguments);
 		// alert('dbClick');
-		console.log('line2',vm.options_line2);
+		console.log('line2', vm.options_line2);
 	};
 
 	vm.pieSelected = function (param, chart) {
@@ -318,6 +334,19 @@ angular.module('app').controller('EchartsCtrl', function ($scope) {
 			chart.setSeries(options.series, true);
 		}
 	};
+
+	vm.$watch('formData.tap', function (newVal) {
+		if (newVal) {
+			if (newVal === '2') {
+				updateOptions();
+			} else {
+				if (globals.timeBar) {
+					$timeout.cancel(globals.timeBar);
+				}
+			}
+		}
+
+	});
 
 	return vm;
 });
