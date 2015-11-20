@@ -113,40 +113,38 @@ angular.module('app').controller('EchartsCtrl', function ($scope, $timeout) {
 			}
     ],
     series: [
-			{
-				name: '蒸发量',
-				type: 'bar',
-				// data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
-				data: [],
-				markPoint: {
-					data: [
-						{ type: 'max', name: '最大值' },
-						{ type: 'min', name: '最小值' }
-					]
-				},
-				markLine: {
-					data: [
-						{ type: 'average', name: '平均值' }
-					]
-				}
-			},
-			{
-				name: '降水量',
-				type: 'bar',
-				// data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-				data: [],
-				markPoint: {
-					data: [
-						{ name: '年最高', value: 182.2, xAxis: 7, yAxis: 183, symbolSize: 18 },
-						{ name: '年最低', value: 2.3, xAxis: 11, yAxis: 3 }
-					]
-				},
-				markLine: {
-					data: [
-						{ type: 'average', name: '平均值' }
-					]
-				}
-			}
+			// {
+			// 	name: '蒸发量',
+			// 	type: 'bar',
+			// 	data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+			// 	markPoint: {
+			// 		data: [
+			// 			{ type: 'max', name: '最大值' },
+			// 			{ type: 'min', name: '最小值' }
+			// 		]
+			// 	},
+			// 	markLine: {
+			// 		data: [
+			// 			{ type: 'average', name: '平均值' }
+			// 		]
+			// 	}
+			// },
+			// {
+			// 	name: '降水量',
+			// 	type: 'bar',
+			// 	data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			// 	markPoint: {
+			// 		data: [
+			// 			{ name: '年最高', value: 182.2, xAxis: 7, yAxis: 183, symbolSize: 18 },
+			// 			{ name: '年最低', value: 2.3, xAxis: 11, yAxis: 3 }
+			// 		]
+			// 	},
+			// 	markLine: {
+			// 		data: [
+			// 			{ type: 'average', name: '平均值' }
+			// 		]
+			// 	}
+			// }
     ]
 	};
 
@@ -317,6 +315,31 @@ angular.module('app').controller('EchartsCtrl', function ($scope, $timeout) {
 		globals.timedBar = $timeout(updateOptions, 5000);
 	}
 
+	function updateOptionsSerie() {
+		var options = vm.options_bar, i, result = [], name, legends=[];
+		for (i = 0; i < Math.floor(Math.random()*4)+1; i++) {
+			name = 'name'+i;
+			legends.push(name);
+			result.push({
+				name: name,
+				type: 'bar',
+				data: function () {
+					var result = [
+
+					], i;
+					for (i = 0; i < 12; i++) {
+						result.push(Math.floor(Math.random() * 700) / 10);
+					}
+					return result;
+				}.call()
+			});
+		}
+		options.legend.data = legends;
+		options.series = result;
+		
+		globals.seriesTimedBar = $timeout(updateOptionsSerie,1500);
+	}
+
   vm.lineClick = function () {
 		console.log('lineClick', arguments);
 	};
@@ -340,10 +363,15 @@ angular.module('app').controller('EchartsCtrl', function ($scope, $timeout) {
 	vm.$watch('formData.tap', function (newVal) {
 		if (newVal) {
 			if (newVal === '2') {
-				globals.timedBar = $timeout(updateOptions, 5000);
+				// globals.timedBar = $timeout(updateOptions, 5000);
+				// globals.seriesTimedBar = $timeout(updateOptionsSerie, 1500);
+				updateOptionsSerie();
 			} else {
-				if (globals.timedBar) {
-					$timeout.cancel(globals.timedBar);
+				// if (globals.timedBar) {
+				// 	$timeout.cancel(globals.timedBar);
+				// }
+				if(globals.seriesTimedBar){
+					$timeout.cancel(globals.seriesTimedBar);
 				}
 			}
 		}
