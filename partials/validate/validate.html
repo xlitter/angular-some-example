@@ -1,0 +1,78 @@
+<div style="width:70%; margin:0 auto; padding: 50px 0;">
+  <form name="form1" class="form-horizontal">
+    <div class="form-group">
+      <label class="control-label col-xs-2">name</label>
+      <div class="col-xs-5">
+        <input type="text" name="name" class="form-control" ng-model="formData.name" ng-model-options="{updateOn: 'default blur', debounce: {default: 300, blur: 0}}"
+        autocomplete="off" name-check/>
+      </div>
+
+      <ng-messages for="form1.name.$error" class="col-xs-5" ng-show="form1.name.$untouched">
+        <ng-message when="cLen">长度</ng-message>
+        <ng-message when="cChar">字符</ng-message>
+        <ng-message when="unique">唯一</ng-message>
+      </ng-messages>
+      <div ng-show="form1.name.$userPending.unique||form1.name.$pending.validate">
+        validating...
+      </div>
+      <ng-messages for="form1.name.$error" class="col-xs-5" ng-show="form1.name.$touched" ng-messages-include="partials/validate/validate-message.html">
+
+      </ng-messages>
+    </div>
+    <div>form $invalid : {{form1.$invalid}}</div>
+    <div>form pristine: {{form1.$pristine}}</div>
+    <div>name $touched {{form1.name.$touched}}</div>
+    <div>name $untouched {{form1.name.$untouched}}</div>
+    <div>name pristine : {{form1.name.$pristine}}</div>
+    <div>dirty: {{form1.name.$dirty}}</div>
+    <div>form1.name.$error : {{form1.name.$error | json}}</div>
+    <div>form1.name.$pending : {{form1.name.$pending }}</div>
+    <div>form1.name.$userPending : {{form1.name.$userPending }}</div>
+
+
+    <div class="form-group">
+      <label class="control-label col-xs-3">数量</label>
+      <div class="col-xs-5">
+        <div buy-cnt-button="options" set-buy-cnt="setBuyCnt"></div>
+      </div>
+      <div class="col-xs-4">
+        cnt: {{formData.cnt}}
+      </div>
+    </div>
+
+    <div pay-buy-cnt set-paymode-and-cnt="setPayModeAndCnt">
+      <div class="form-group">
+        <label class="col-xs-3 control-label">
+          付费方式
+        </label>
+        <div class="col-xs-2 ">
+          <select class="form-control" ng-model="formData.payMode" ng-options="item.name for item in formData.payModes">
+            <option value="" style="display:none"></option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-3 control-label">
+        </label>
+        <div class="col-xs-9 ">
+          <span class="input-group-btn-buy">
+               <button type="button" class="btn btn-info btn-minus" ng-click="minus()"></button>
+            </span>
+          <input type="text" name="payCnt" class="input-group-text text-center" ng-blur="blur()" ng-focus="focus()" ng-model="formData.payCnt">
+          <span class="input-group-btn-buy">
+              <button type="button" class="btn btn-info btn-plus" ng-click="plus()"></button>
+            </span>
+          <ng-messages for="formData.errors" class="err-message" style="margin-left:5px">
+            <ng-message when="minus">{{formData.messages.minus}}</ng-message>
+            <ng-message when="plus">{{formData.messages.plus}}</ng-message>
+          </ng-messages>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      payMode: {{formData.payMode}} payCnt: {{formData.payCnt}}
+    </div>
+  </form>
+  <button class="btn btn-primary col-xs-offset-3" ng-disabled="form1.$invalid">save</button>
+</div>

@@ -1,10 +1,10 @@
-var app = angular.module('app', ['ngSanitize', 'ui.router', 'angularFileUpload', 'sn.controls', 'sn.error']);
+var app = angular.module('app', ['ngSanitize', 'ngMessages', 'ui.router', 'angularFileUpload', 'sn.controls', 'sn.error', 'sn.validate']);
 
 app.constant('baseUrl', '');
 
 app.constant('Utils', {})
-  .run(['$rootScope', 'Utils', 'envService','DialogService',
-    function($rootScope, Utils, envService,DialogService) {
+  .run(['$rootScope', 'Utils', 'envService', 'DialogService',
+    function ($rootScope, Utils, envService, DialogService) {
       'use strict';
       //获取当前环境 dev, sit, pre, prd
       Utils.settings = {};
@@ -20,9 +20,9 @@ app.constant('Utils', {})
       //切换页面后scrollTop置为0,滚动条回到顶部
       //关闭dialog框
       //广播跳转状态
-      $rootScope.$on('$stateChangeSuccess', function(event, toState) {
+      $rootScope.$on('$stateChangeSuccess', function (event, toState) {
 
-        setTimeout(function() {
+        setTimeout(function () {
           document.documentElement.scrollTop = 0;
           document.body.scrollTop = 0;
         }, 0);
@@ -36,20 +36,20 @@ app.constant('Utils', {})
 
 //router
 app.config(['$stateProvider', '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider) {
+  function ($stateProvider, $urlRouterProvider) {
     'use strict';
     $urlRouterProvider.otherwise('/console');
     $stateProvider.state('Console', {
-        url: '/console',
-        templateUrl: 'partials/console.html',
-        controller: 'ConsoleCtrl',
-        resolve: {
-          init: ['UserService', function(UserService) {
-            //用户权限初始化
-            return UserService.getUserAllRoles(angular.noop);
-          }]
-        }
-      })
+      url: '/console',
+      templateUrl: 'partials/console.html',
+      controller: 'ConsoleCtrl',
+      resolve: {
+        init: ['UserService', function (UserService) {
+          //用户权限初始化
+          return UserService.getUserAllRoles(angular.noop);
+        }]
+      }
+    })
       .state('BtnRole', {
         parent: 'Console',
         url: '/btnrole',
@@ -90,20 +90,27 @@ app.config(['$stateProvider', '$urlRouterProvider',
         url: '/scrollbar',
         templateUrl: 'partials/scrollbar/scrollbar.html',
         controller: 'ScrollBarCtrl'
-      }).state('Echarts', {
-        parent:'Console',
+      })
+      .state('Echarts', {
+        parent: 'Console',
         url: '/echarts',
         templateUrl: 'partials/echarts/echarts.html',
         controller: 'EchartsCtrl'
+      })
+      .state('Validate', {
+        parent: 'Console',
+        url: '/validate',
+        templateUrl: 'partials/validate/validate.html',
+        controller: 'ValidateCtrl'
       });
   }
 ]);
 
-app.factory('noCacheInterceptor', function() {
+app.factory('noCacheInterceptor', function () {
   'use strict';
 
   return {
-    request: function(config) {
+    request: function (config) {
       //config.url.indexOf('tpl.html') === '-1'
       //解决$templateCache的tpl.html模板URL,加上noCache之后无法取到template的问题
       if (config.method === 'GET' && config.url.indexOf('tpl.html') === -1) {
@@ -115,7 +122,7 @@ app.factory('noCacheInterceptor', function() {
   };
 });
 
-app.config(function($httpProvider) {
+app.config(function ($httpProvider) {
   'use strict';
   //jshint -W089
   $httpProvider.interceptors.push('noCacheInterceptor');
@@ -124,13 +131,13 @@ app.config(function($httpProvider) {
   $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
   // Override $http service's default transformRequest
-  $httpProvider.defaults.transformRequest = [function(data) {
+  $httpProvider.defaults.transformRequest = [function (data) {
     /**
      * The workhorse; converts an object to x-www-form-urlencoded serialization.
      * @param {Object} obj
      * @return {String}
      */
-    var param = function(obj) {
+    var param = function (obj) {
       var query = '',
         name, value, fullSubName, subName, subValue, innerObj, i;
 

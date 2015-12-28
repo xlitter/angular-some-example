@@ -1,0 +1,42 @@
+.input-group-text {
+    width: 65px;
+    height: 33px;
+    margin: 0 3px;
+    border: 2px solid #e4e7ea;
+}
+
+.btn-minus, .btn-plus {
+    color: #333;
+    border: 1px solid #b3bbc0;
+    background: linear-gradient(180deg, #fdfdfd 10%, #dbdde7);
+}
+.btn-minus, .btn-plus {
+    position: relative;
+    width: 34px;
+    height: 33px;
+    border-radius: 4px;
+}
+
+.btn-minus:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: url(images/resource/minus.png) center center no-repeat transparent;
+}
+
+.btn-plus:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: url(images/resource/plus.png) center center no-repeat transparent;
+}
+
+.err-message {
+  color: red;
+}

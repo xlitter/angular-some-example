@@ -81,6 +81,17 @@ angular.module('app').controller('ConsoleCtrl', ['$rootScope', '$scope', '$state
           o: 0
         }],
         o: 0
+      },{
+        name: 'Validate',
+        clazz: 'fa fa-circle-o',
+        children: [{
+          name: 'Validate',
+          clazz: 'fa fa-circle-o',
+          state: 'Validate',
+          relation: [],
+          o: 0
+        }],
+        o: 0
       }];
 
     /////////////functions///////////////

@@ -1,0 +1,86 @@
+{
+  "_args": [
+    [
+      "angular-messages@1.3.20",
+      "F:\\sn-gitlab\\angular-project-framework"
+    ]
+  ],
+  "_cnpm_publish_time": 1443566207553,
+  "_from": "angular-messages@1.3.20",
+  "_id": "angular-messages@1.3.20",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/angular-messages",
+  "_nodeVersion": "0.10.26",
+  "_npmUser": {
+    "email": "angular-core+npm@google.com",
+    "name": "angularcore"
+  },
+  "_npmVersion": "2.0.2",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "angular-messages",
+    "raw": "angular-messages@1.3.20",
+    "rawSpec": "1.3.20",
+    "scope": null,
+    "spec": "1.3.20",
+    "type": "version"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npm.taobao.org/angular-messages/download/angular-messages-1.3.20.tgz",
+  "_shasum": "f7d37a440b1b5942fed6b2f3bcfbfa2ffe1d2a58",
+  "_shrinkwrap": null,
+  "_spec": "angular-messages@1.3.20",
+  "_where": "F:\\sn-gitlab\\angular-project-framework",
+  "author": {
+    "email": "angular-core+npm@google.com",
+    "name": "Angular Core Team"
+  },
+  "bugs": {
+    "url": "https://github.com/angular/angular.js/issues"
+  },
+  "dependencies": {},
+  "description": "AngularJS module that provides enhanced support for displaying messages within templates",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "noattachment": false,
+    "shasum": "f7d37a440b1b5942fed6b2f3bcfbfa2ffe1d2a58",
+    "size": 8613,
+    "tarball": "http://registry.npm.taobao.org/angular-messages/download/angular-messages-1.3.20.tgz"
+  },
+  "gitHead": "6e43631897979678bf5f70264ade4a813f71cc30",
+  "homepage": "http://angularjs.org",
+  "keywords": [
+    "angular",
+    "browser",
+    "client-side",
+    "framework"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "angularcore",
+      "email": "angular-core+npm@google.com"
+    },
+    {
+      "name": "petebd",
+      "email": "pete@bacondarwin.com"
+    }
+  ],
+  "name": "angular-messages",
+  "optionalDependencies": {},
+  "publish_time": 1443566207553,
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angular/angular.js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.3.20"
+}
