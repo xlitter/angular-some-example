@@ -6,10 +6,7 @@ angular.module('app').controller('ValidateCtrl', ['$scope', function($scope){
     payModes : [{code : '0', name:'月'}]
   };
   
-  vm.options = {
-    min: 10,
-    max: 100
-  };
+
   
   vm.payOptions={
     0: {
