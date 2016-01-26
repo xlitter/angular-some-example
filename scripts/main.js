@@ -1,4 +1,5 @@
-var app = angular.module('app', ['ngSanitize', 'ngMessages', 'ui.router', 'angularFileUpload', 'sn.controls', 'sn.error', 'sn.validate']);
+var app = angular.module('app', ['ngSanitize', 'ngMessages', 'ui.router', 'ui.codemirror', 
+'angularFileUpload', 'sn.controls', 'sn.error', 'sn.validate', 'ngClipboard']);
 
 app.constant('baseUrl', '');
 
@@ -102,6 +103,18 @@ app.config(['$stateProvider', '$urlRouterProvider',
         url: '/validate',
         templateUrl: 'partials/validate/validate.html',
         controller: 'ValidateCtrl'
+      })
+      .state('CodeMirror', {
+        parent: 'Console',
+        url: '/codemirror',
+        templateUrl: 'partials/codemirror/codemirror.html',
+        controller: 'CodeMirrorCtrl'
+      })
+      .state('ClipBoard', {
+        parent: 'Console',
+        url: '/clipboard',
+        templateUrl: 'partials/clipboard/clipboard.html',
+        controller: 'ClipBoardCtrl'
       });
   }
 ]);

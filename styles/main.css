@@ -40,3 +40,7 @@
 .err-message {
   color: red;
 }
+
+.CodeMirror {
+  height: 450px;
+}

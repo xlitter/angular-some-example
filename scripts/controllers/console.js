@@ -92,6 +92,28 @@ angular.module('app').controller('ConsoleCtrl', ['$rootScope', '$scope', '$state
           o: 0
         }],
         o: 0
+      },{
+        name: 'CodeMirror',
+        clazz: 'fa fa-circle-o',
+        children: [{
+          name: 'codeMirror',
+          clazz: 'fa fa-circle-o',
+          state: 'CodeMirror',
+          relation: [],
+          o: 0
+        }],
+        o: 0
+      },{
+        name: 'ClipBoard',
+        clazz: 'fa fa-circle-o',
+        children: [{
+          name: 'clipboard',
+          clazz: 'fa fa-circle-o',
+          state: 'ClipBoard',
+          relation: [],
+          o: 0
+        }],
+        o: 0
       }];
 
     /////////////functions///////////////
