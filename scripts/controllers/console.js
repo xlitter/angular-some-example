@@ -114,6 +114,17 @@ angular.module('app').controller('ConsoleCtrl', ['$rootScope', '$scope', '$state
           o: 0
         }],
         o: 0
+      },{
+        name: 'Pie',
+        clazz: 'fa fa-circle-o',
+        children: [{
+          name: 'pie',
+          clazz: 'fa fa-circle-o',
+          state: 'Pie',
+          relation: [],
+          o: 0
+        }],
+        o: 0
       }];
 
     /////////////functions///////////////

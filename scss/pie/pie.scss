@@ -1,0 +1,42 @@
+.pie-wrapper{
+  display: inline-block;
+  padding: 20px;
+  margin: 0 auto;
+  
+  .pie {
+    display: inline-block;
+    position: relative;
+    width: 100px;
+    height: 100px;
+    color: #655;
+    background-color: yellowgreen;
+    // background-image: linear-gradient(to right, transparent 50%, currentColor 0);
+    border-radius: 50%;
+    margin: 0 30px;
+    
+    
+    .pie-left, .pie-right, &:before {
+      content:'';
+      position: absolute;
+      display: block;
+      top:0;
+      left:50%;
+      width:50px;
+      height: 100px;
+      border-radius:  0 100%  100% 0/50%;
+      background-color: currentColor;
+      -webkit-transform-origin: left center;
+      transform-origin: left center;
+    }
+    
+    .pie-left{
+      background-color: inherit;
+      z-index: 10;
+    }
+    
+    .pie-right {
+      
+    }
+  }
+  
+}

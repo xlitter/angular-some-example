@@ -115,6 +115,12 @@ app.config(['$stateProvider', '$urlRouterProvider',
         url: '/clipboard',
         templateUrl: 'partials/clipboard/clipboard.html',
         controller: 'ClipBoardCtrl'
+      })
+      .state('Pie', {
+        parent: 'Console',
+        url: '/pie',
+        templateUrl: 'partials/pie/pie.html',
+        controller: 'PieCtrl'
       });
   }
 ]);
