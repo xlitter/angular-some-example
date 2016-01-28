@@ -6,7 +6,7 @@ angular.module('app').controller('PieCtrl', ['$scope', '$timeout', function ($sc
 
   function genDeg() {
     var result = [], i;
-    for (i = 0; i <= 360; i += 30) {
+    for (i = 0; i <= 761; i += 30) {
       result.push(i);
     }
     return result;

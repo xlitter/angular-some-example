@@ -8,6 +8,8 @@ angular.module('app').directive('piePercent', function () {
     },
     link: function (scope, element, attrs) {
       var value = Math.floor(Number(attrs['piePercent'])),
+        deg = value % 360,
+        value = value / 360 !== 0 && deg === 0 ? 360 : deg,
         before = element.find('.pie-left'),
         after = element.find('.pie-right'),
         i, setBeforeFlag = false;
