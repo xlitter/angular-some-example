@@ -1454,7 +1454,7 @@ angular.module("sn.controls").directive("snDatetimepicker", ["$document", "$filt
          $scope.second = $scope.second || now.getSeconds();
          */
         $scope.year = $scope.year || $scope.initYear;
-        $scope.month = $scope.month || $scope.initMonth;
+        $scope.month = $scope.month === undefined ? $scope.initMonth : $scope.month;
         $scope.date = $scope.date || $scope.initDate;
         $scope.hour = $scope.hour || $scope.initHour;
         $scope.minute = $scope.minute || $scope.initMinute;
