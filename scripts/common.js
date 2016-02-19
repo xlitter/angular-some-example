@@ -1938,7 +1938,7 @@ angular.module("sn.controls").directive("chart", ["LazyLoader", '$parse', functi
             }
 
           }, true);
-          
+
           if (angular.isFunction(scope.click)) {
             myChart.on(config.EVENT.CLICK, function () {
               scope.click.apply(this, arguments);
