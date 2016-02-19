@@ -14,7 +14,19 @@ angular.module('app').controller('CheckBoxTreeCtrl', function($scope) {
       code: "sz",
       children: [{
         name: "Wujiang",
-        code: "wj"
+        code: "wj",
+        children: [{
+          name: 'node4',
+          code:'node-4',
+          children: [{
+            name: 'node5',
+            code: 'node-5',
+            children: [{
+              name: 'node6',
+              code: 'node-6'
+            }]
+          }]
+        }]
       }, {
         name: "Changshu",
         code: "cs"

@@ -1666,9 +1666,9 @@ angular.module("sn.controls").directive('snTree', function ($compile) {
       $scope.state = function (node) {
         if (node.children && node.children.length > 0) {
           if (node.$collapsed) {
-            return "fa fa-caret-right";
-          } else {
             return "fa fa-caret-down";
+          } else {
+            return "fa fa-caret-right";
           }
         } else {
           return "fa";
