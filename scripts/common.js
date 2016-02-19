@@ -1678,9 +1678,9 @@ angular.module("sn.controls").directive('snTree', function ($compile) {
       $scope.type = function (node) {
         if (node.children && node.children.length > 0) {
           if (node.$collapsed) {
-            return "fa fa-folder";
-          } else {
             return "fa fa-folder-open";
+          } else {
+            return "fa fa-folder";
           }
         } else {
           return "fa fa-leaf";
