@@ -6,6 +6,13 @@
       <p>{{formData.createTime}}</p>
 
     </div>
+    
+    <div class="form-group">
+      日期控件 minDate && maxDate
+      begin <div show-time = "true" min-date="'now'" max-date = "formData.endTime" ng-model="formData.beginTime" sn-datetimepicker></div>
+
+      end <div show-time = "false" min-date = "formData.beginTime"  ng-model="formData.endTime" sn-datetimepicker></div>
+    </div>
 
     <div class="form-group">
       <label class="control-label col-xs-2">name</label>

@@ -1066,6 +1066,12 @@ angular.module("sn.controls").directive("snCalendar", [function () {
       }
 
       function before(date1, date2) {
+        if(date1 === 'now'){
+          date1 = new Date();
+        }
+        if(date2 === 'now'){
+          date2 = new Date();
+        }
         return new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()) <= new Date(date2.getFullYear(), date2.getMonth(), date2.getDate() - 1);
       }
 
@@ -1355,6 +1361,14 @@ angular.module("sn.controls").directive("snTimepicker", [function () {
   }
 }]);
 
+/**
+ * snDatetimepikcer
+ * @param currentDate {Date} 已选择时间
+ * @param showTime {boolean} 是否显示时分秒
+ * @param minDate {Date| 'now'} 与maxDate只能同时设置一个为日期格式
+ * @param maxDate {Date| 'now'} 与minDate只能同时设置一个为日期格式
+ * 
+ */
 angular.module("sn.controls").directive("snDatetimepicker", ["$document", "$filter", function ($document, $filter) {
   return {
     restrict: "EA",
@@ -1412,14 +1426,22 @@ angular.module("sn.controls").directive("snDatetimepicker", ["$document", "$filt
         if (!initialized) {
           if (!$scope.currentDate) {
             if (minDate || maxDate) {
-              if (minDate && maxDate) {
-                throw new Error('minDate或者maxDate只能设置一个!');
-              } else if (minDate) {
+              if (angular.isDate(minDate) && angular.isDate(maxDate)) {
+                throw new Error('minDate或者maxDate只能同时设置一个为日期格式,您可设置另外一个为"now"字符串, 限制值为当前日期!');
+              }
+
+              if (minDate) {
+                if (minDate === 'now') {
+                  minDate = new Date();
+                }
                 minDate = showTime ? new Date(minDate) : new Date(minDate.getFullYear(), minDate.getMonth(), minDate.getDate());
                 if (minDate > date) {
                   initDateTime(minDate);
                 }
               } else {
+                if (maxDate === 'now') {
+                  maxDate = new Date();
+                }
                 maxDate = showTime ? new Date(maxDate) : new Date(maxDate.getFullYear(), maxDate.getMonth(), maxDate.getDate());
                 if (maxDate < date) {
                   initDateTime(maxDate);
