@@ -1,5 +1,5 @@
-var app = angular.module('app', ['ngSanitize', 'ngMessages', 'ui.router', 'ui.codemirror', 
-'angularFileUpload', 'sn.controls', 'sn.error', 'sn.validate', 'ngClipboard']);
+var app = angular.module('app', [ 'ngMessages', 'ui.router', 'ui.codemirror', 
+'angularFileUpload', 'sn.controls', 'sn.error', 'sn.validate', 'ngClipboard', 'app.security']);
 
 app.constant('baseUrl', '');
 
@@ -121,7 +121,20 @@ app.config(['$stateProvider', '$urlRouterProvider',
         url: '/pie',
         templateUrl: 'partials/pie/pie.html',
         controller: 'PieCtrl'
+      })
+      .state('Sce', {
+        parent:'Console',
+        url: '/sce',
+        templateUrl: 'partials/sce/sce.html',
+        controller: 'SceCtrl'
+      })
+      .state('Security', {
+        parent: 'Console',
+        url: '/security',
+        templateUrl: 'partials/security/security.html',
+        controller: 'SecurityCtrl'
       });
+      
   }
 ]);
 
@@ -145,7 +158,10 @@ app.config(function ($httpProvider) {
   'use strict';
   //jshint -W089
   $httpProvider.interceptors.push('noCacheInterceptor');
-
+  
+  //拦截401 unauth
+  $httpProvider.interceptors.push('SecurityInterceptor');
+  
   $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
   $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 

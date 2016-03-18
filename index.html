@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <!--建议将该页面内容放入ftl或jsp,通过拦截向后台请求该页面的请求,来实现页面权限控制-->
+
 <head>
   <meta charset="UTF-8">
   <title>风控平台</title>
@@ -9,11 +10,11 @@
   <link rel="stylesheet" href="styles/adminlte/css/skins/skin-blue.min.css">
   <link rel="stylesheet" href="styles/fontawesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="libs/codeMirror/libs/codemirror.css">
-  
+
   <link rel="stylesheet" href="styles/controls.css">
   <link rel="stylesheet" href="styles/imageUpload.css">
   <link rel="stylesheet" href="styles/main.css">
-  
+
   <!--pie css-->
   <link rel="stylesheet" href="styles/pie/pie.css">
 </head>
@@ -72,23 +73,22 @@
   </script>
 
   <script src="libs/jquery/jquery.js"></script>
-  
+
   <script src="libs/codeMirror/libs/codemirror.js"></script>
   <script src="libs/angular/angular.js"></script>
-  <script src="libs/angular-sanitize/angular-sanitize.min.js"></script>
+  <script src="libs/angular-sanitize/angular-sanitize.js"></script>
   <script src="libs/angular-messages/angular-messages.js"></script>
   <script src="libs/ui-router/angular-ui-router.min.js"></script>
   <script src="libs/angular-file-uploader/angular-file-upload.js"></script>
   <script src="libs/ui-codemirror/ui-codemirror.js"></script>
   <script src="libs/ng-clip/ng-clip.js"></script>
   <script src="libs/zeroclipboard/zeroclipboard.js"></script>
-  
+
   <script src="libs/adminlte/adminlte.js"></script>
 
   <script src="scripts/main.js"></script>
   <script src="scripts/user.js"></script>
   <script src="scripts/errorhandle.js"></script>
-  <script src="scripts/validate.js"></script>
   <script src="scripts/common.js"></script>
   <script src="scripts/constants.js"></script>
 
@@ -108,28 +108,37 @@
   <!--imageUpload-->
   <script src="scripts/controllers/uploader/uploader.js"></script>
   <script src="scripts/controllers/uploader/uploader2.js"></script>
-  
+
   <!--ueditor-->
   <script src="scripts/controllers/ueditor/ueditor.js"></script>
-  
+
   <!--scrollbar-->
   <script src="scripts/controllers/scrollbar/scrollbar.js"></script>
-  
+
   <!--echarts-->
   <script src="scripts/controllers/echarts/echarts.js"></script>
-  
+
   <!--validate-->
   <script src="scripts/controllers/validate/validate.js"></script>
-  
+  <script src="scripts/directive/validate.js"></script>
+
   <!--codeMirror-->
   <script src="scripts/controllers/codemirror/codemirror.js"></script>
-  
+
   <!--clipboard-->
-   <script src="scripts/controllers/clipboard/clipboard.js"></script>
-  
+  <script src="scripts/controllers/clipboard/clipboard.js"></script>
+
   <!--pie-->
   <script src="scripts/controllers/pie/pie.js"></script>
   <script src="scripts/directive/piePercent.js"></script>
+
+  <!--sce-->
+  <script src="scripts/controllers/sce/sce.js"></script>
+  
+  
+  <!--security-->
+  <script src="scripts/controllers/security/security.js"></script>
+  <script src="scripts/services/security/security.js"></script>
 </body>
 
 </html>

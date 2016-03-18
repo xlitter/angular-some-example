@@ -125,6 +125,29 @@ angular.module('app').controller('ConsoleCtrl', ['$rootScope', '$scope', '$state
           o: 0
         }],
         o: 0
+      },{
+        name: 'SCE',
+        clazz: 'fa fa-circle-o',
+        children: [{
+          name: 'sce',
+          clazz: 'fa fa-circle-o',
+          state: 'Sce',
+          relation: [],
+          o: 0
+        }],
+        o: 0
+      },
+      {
+        name: 'Security',
+        clazz: 'fa fa-circle-o',
+        children: [{
+          name: 'security',
+          clazz: 'fa fa-circle-o',
+          state: 'Security',
+          relation: [],
+          o: 0
+        }],
+        o: 0
       }];
 
     /////////////functions///////////////

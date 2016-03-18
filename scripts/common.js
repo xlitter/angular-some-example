@@ -1066,10 +1066,10 @@ angular.module("sn.controls").directive("snCalendar", [function () {
       }
 
       function before(date1, date2) {
-        if(date1 === 'now'){
+        if (date1 === 'now') {
           date1 = new Date();
         }
-        if(date2 === 'now'){
+        if (date2 === 'now') {
           date2 = new Date();
         }
         return new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()) <= new Date(date2.getFullYear(), date2.getMonth(), date2.getDate() - 1);
@@ -1478,9 +1478,9 @@ angular.module("sn.controls").directive("snDatetimepicker", ["$document", "$filt
         $scope.year = $scope.year || $scope.initYear;
         $scope.month = $scope.month === undefined ? $scope.initMonth : $scope.month;
         $scope.date = $scope.date || $scope.initDate;
-        $scope.hour = $scope.hour || $scope.initHour;
-        $scope.minute = $scope.minute || $scope.initMinute;
-        $scope.second = $scope.second || $scope.initSecond;
+        $scope.hour = $scope.hour === undefined ? $scope.initHour : $scope.hour;
+        $scope.minute = $scope.minute === undefined ? $scope.initMinute : $scope.minute;
+        $scope.second = $scope.second === undefined ? $scope.initSecond : $scope.second;
 
         $scope.currentDate = new Date(
           $scope.year,
