@@ -19,7 +19,6 @@ angular.module('app.security', []).factory('Security', function(securityQueue) {
     responseError: function(response) {
       if (response.status === 401) {
         return queue.pushRetryItem('Unauthorized', function(){
-          
         })
       }
       return response;
