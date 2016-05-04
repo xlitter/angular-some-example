@@ -34,7 +34,7 @@ app.constant('Utils', {})
       });
     }
   ]);
-
+  
 //router
 app.config(['$stateProvider', '$urlRouterProvider',
   function ($stateProvider, $urlRouterProvider) {
@@ -158,9 +158,6 @@ app.config(function ($httpProvider) {
   'use strict';
   //jshint -W089
   $httpProvider.interceptors.push('noCacheInterceptor');
-  
-  //拦截401 unauth
-  $httpProvider.interceptors.push('SecurityInterceptor');
   
   $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
   $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
